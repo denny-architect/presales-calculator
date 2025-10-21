@@ -1,6 +1,6 @@
 {
   "name": "presales-calculator",
-  "version": "2.0.0",
+  "version": "2.5.1",
   "description": "High-Precision Storage & Network Configuration Tool for Enterprise Pre-Sales Engineers",
   "main": "index.html",
   "scripts": {

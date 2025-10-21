@@ -1,4 +1,4 @@
-# 🧮 PreSales Calculator v2.5.0 - Open Source Edition
+# 🧮 PreSales Calculator v2.5.1 - Open Source Edition
 
 **Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers**
 
@@ -309,7 +309,7 @@ Automated workflow includes:
 3. **Release Creation** - Version management
    - Creates ZIP/TAR.GZ archives
    - Auto-generates release notes
-   - Tags versions (e.g., v2.5.0)
+   - Tags versions (e.g., v2.5.1)
 
 ---
 
@@ -482,4 +482,4 @@ This Open Source Edition includes the Cleversafe calculator. The full private ve
 
 **Built with ❤️ by Denny Kalaf for storage professionals worldwide**
 
-*PreSales Calculator v2.5.0 - Open Source Edition | Last Updated: October 2025*
+*PreSales Calculator v2.5.1 - Open Source Edition | Last Updated: October 2025*

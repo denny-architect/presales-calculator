@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.5.1] - 2025-10-22
+
+### 📝 **Documentation Release**
+
+Minor documentation update to ensure release artifacts reflect current state.
+
+### Changed
+- Updated README.md with improved vendor descriptions and contact information
+- Updated documentation references from v2.5.0 to v2.5.1
+- Refined QUICK_START guide for clarity
+
+### Fixed
+- Release documentation now matches current repository state
+
+---
+
 ## [2.5.0] - 2025-10-21
 
 ### 🎯 **Major Release: Multi-Calculator Platform**

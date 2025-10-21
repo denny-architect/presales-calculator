@@ -1,4 +1,4 @@
-# 🚀 Quick Start Guide - PreSales Calculator v2.5.0 (Open Source Edition)
+# 🚀 Quick Start Guide - PreSales Calculator v2.5.1 (Open Source Edition)
 
 Get up and running in **60 seconds** with the PreSales Calculator!
 
@@ -8,7 +8,7 @@ Get up and running in **60 seconds** with the PreSales Calculator!
 
 ## 🎯 Choose Your Calculator
 
-PreSales Calculator v2.5.0 Open Source Edition offers:
+PreSales Calculator v2.5.1 Open Source Edition offers:
 
 1. **Block (RAID)** - Traditional RAID configurations (all 7 RAID levels)
 2. **Object (Reed-Solomon EC)** - Cleversafe erasure coding calculator
