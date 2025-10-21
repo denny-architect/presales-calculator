@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreSales Calculator v2.5.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
+    <style>
+        /* ========================================
+           PRESALES CALCULATOR v2.5.0
+           Multi-Calculator Platform
+           ======================================== */
+
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(26, 26, 46, 0.9);
+            --accent-blue: #0062ff;
+            --accent-cyan: #00d4ff;
+            --accent-green: #24a148;
+            --accent-orange: #ff832b;
+            --accent-red: #da1e28;
+            --text-primary: #f4f4f4;
+            --text-secondary: #c6c6c6;
+            --text-muted: #8d8d8d;
+            --border-subtle: rgba(141, 141, 141, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(0, 98, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-shadow: 0 0 30px rgba(0, 98, 255, 0.5);
+        }
+
+        .header h1 i {
+            margin-right: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .version {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+        }
+
+        .subtitle {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Navigation Dropdowns */
+        .nav-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .nav-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-group select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-group select:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-group select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-group select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 10px;
+        }
+
+        .nav-group select option:disabled {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .nav-group.hidden {
+            display: none;
+        }
+
+        /* Calculator Sections */
+        .calculator-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .calculator-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Placeholder */
+        .placeholder {
+            padding: 80px 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 2px dashed var(--border-subtle);
+        }
+
+        .placeholder h2 {
+            font-size: 2.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+        }
+
+        .placeholder p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Calculator Grid (for Reed-Solomon EC) */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1200px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panels */
+        .input-panel,
+        .results-panel {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .input-panel h2,
+        .results-panel h2 {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Config Sections */
+        .config-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .config-section h3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Scheme Display */
+        .scheme-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .scheme-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .scheme-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            min-width: 60px;
+            display: inline-block;
+        }
+
+        .scheme-separator {
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .scheme-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .tooltip {
+            position: relative;
+            cursor: help;
+            color: var(--accent-cyan);
+            transition: color 0.3s;
+        }
+
+        .tooltip:hover {
+            color: var(--accent-blue);
+        }
+
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            max-width: 300px;
+            white-space: normal;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tooltip:hover::before {
+            opacity: 1;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Auto-Calculated Badge */
+        .auto-calculated {
+            background: rgba(0, 98, 255, 0.15);
+            border: 1px solid var(--accent-blue);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .auto-calculated i {
+            font-size: 1.2rem;
+        }
+
+        .auto-note {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Collapsible Section */
+        .collapsible-section {
+            margin-top: 20px;
+        }
+
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .collapsible-header:hover {
+            background: rgba(0, 98, 255, 0.1);
+            border-color: var(--accent-blue);
+            color: var(--accent-cyan);
+        }
+
+        .collapsible-header i {
+            transition: transform 0.3s;
+        }
+
+        .collapsible-header.open i {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.open {
+            max-height: 200px;
+            padding-top: 15px;
+        }
+
+        /* Site Warning */
+        .site-warning {
+            background: rgba(218, 30, 40, 0.15);
+            border: 1px solid var(--accent-red);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .site-warning i {
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .site-warning.hidden {
+            display: none;
+        }
+
+        /* Calculate Button */
+        .calculate-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border: none;
+            border-radius: 8px;
+            color: var(--bg-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Results Sections */
+        .result-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .result-section h3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Result Grid */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .result-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .result-item.highlight {
+            background: rgba(0, 98, 255, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .result-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .result-unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* Tolerance Grid */
+        .tolerance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tolerance-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tolerance-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tolerance-item i {
+            font-size: 2rem;
+            color: var(--accent-green);
+            margin-bottom: 10px;
+        }
+
+        .tolerance-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .tolerance-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-shadow: 0 0 15px rgba(36, 161, 72, 0.4);
+        }
+
+        /* Availability Grid */
+        .availability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .availability-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .availability-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .availability-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .availability-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            margin-bottom: 8px;
+        }
+
+        .availability-sublabel {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Performance Grid */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .performance-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .performance-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .performance-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .performance-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            text-shadow: 0 0 15px rgba(255, 131, 43, 0.4);
+        }
+
+        /* Result Explanation */
+        .result-explanation {
+            background: rgba(0, 98, 255, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .result-explanation strong {
+            color: var(--accent-cyan);
+        }
+
+        /* Educational Section */
+        .educational {
+            background: rgba(36, 161, 72, 0.1);
+            border: 1px solid var(--accent-green);
+        }
+
+        .educational h3 {
+            color: var(--accent-green);
+        }
+
+        #educational-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        #educational-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        #educational-content li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        #educational-content li:last-child {
+            border-bottom: none;
+        }
+
+        #educational-content strong {
+            color: var(--accent-green);
+        }
+
+        #educational-content code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--accent-cyan);
+        }
+
+        /* Storage Input Rows */
+        .storage-input-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr auto;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .storage-input-row input,
+        .storage-input-row select {
+            width: 100%;
+        }
+
+        .storage-input-row button {
+            padding: 12px 16px;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .storage-input-row button:hover {
+            background: #ff4444;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 8px 0;
+            color: var(--text-secondary);
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* FontAwesome Icons (Simple CSS Icons) */
+        i.fas {
+            font-style: normal;
+            display: inline-block;
+        }
+
+        i.fa-calculator::before { content: "🧮"; }
+        i.fa-network-wired::before { content: "🌐"; }
+        i.fa-sliders-h::before { content: "⚙️"; }
+        i.fa-info-circle::before { content: "ℹ️"; }
+        i.fa-robot::before { content: "🤖"; }
+        i.fa-chart-line::before { content: "📈"; }
+        i.fa-database::before { content: "💾"; }
+        i.fa-shield-alt::before { content: "🛡️"; }
+        i.fa-server::before { content: "🖥️"; }
+        i.fa-map-marker-alt::before { content: "📍"; }
+        i.fa-hdd::before { content: "💿"; }
+        i.fa-heartbeat::before { content: "💓"; }
+        i.fa-tachometer-alt::before { content: "⚡"; }
+        i.fa-graduation-cap::before { content: "🎓"; }
+        i.fa-exclamation-triangle::before { content: "⚠️"; }
+        i.fa-chevron-down::before { content: "▼"; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-calculator"></i> PreSales Calculator</h1>
+                <div class="version">v2.5.0</div>
+            </div>
+            <p class="subtitle">Storage & Erasure Coding Analysis for Pre-Sales Engineers</p>
+        </header>
+
+        <!-- Navigation Section -->
+        <section class="nav-section">
+            <div class="nav-row">
+                <!-- Calculator Type Dropdown -->
+                <div class="nav-group">
+                    <label for="calculator-type">
+                        <i class="fas fa-calculator"></i>
+                        Calculator Type
+                    </label>
+                    <select id="calculator-type">
+                        <option value="">Select Calculator Type...</option>
+                        <option value="raid">Block (RAID)</option>
+                        <option value="reed-solomon">Object (Reed-Solomon EC)</option>
+                        <option value="file-smb-nfs">File (SMB/NFS)</option>
+                    </select>
+                </div>
+
+                <!-- Vendor Dropdown (Only for Object Storage) -->
+                <div class="nav-group hidden" id="vendor-group">
+                    <label for="vendor-select">
+                        <i class="fas fa-server"></i>
+                        Vendor/Implementation
+                    </label>
+                    <select id="vendor-select">
+                        <option value="">Select Vendor...</option>
+                        <option value="cleversafe">Cleversafe</option>
+                        <option value="minio" disabled>MinIO (Coming Soon)</option>
+                        <option value="scality-ring" disabled>Scality RING (Coming Soon)</option>
+                        <option value="scality-artesca" disabled>Scality Artesca (Coming Soon)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Block (RAID) Calculator Section -->
+        <section id="raid-calculator" class="calculator-section">
+            <!-- Storage Aggregation Card -->
+            <div class="input-panel" style="margin-bottom: 30px;">
+                <h2><i class="fas fa-database"></i> Storage Aggregation</h2>
+                
+                <section class="config-section">
+                    <h3>Add Storage Units</h3>
+                    <div id="storage-inputs-container"></div>
+                    <button class="calculate-btn" onclick="addStorageRow()" style="margin-top: 15px;">
+                        <i class="fas fa-hdd"></i> Add Storage Unit
+                    </button>
+                </section>
+
+                <section class="config-section">
+                    <h3>Output Unit</h3>
+                    <div class="input-group">
+                        <select id="output-unit" onchange="calculateStorageAggregation()">
+                            <option value="B">Bytes (B)</option>
+                            <option value="KB">Kilobytes (KB)</option>
+                            <option value="KiB">Kibibytes (KiB)</option>
+                            <option value="MB">Megabytes (MB)</option>
+                            <option value="MiB">Mebibytes (MiB)</option>
+                            <option value="GB">Gigabytes (GB)</option>
+                            <option value="GiB">Gibibytes (GiB)</option>
+                            <option value="TB" selected>Terabytes (TB)</option>
+                            <option value="TiB">Tebibytes (TiB)</option>
+                            <option value="PB">Petabytes (PB)</option>
+                            <option value="PiB">Pebibytes (PiB)</option>
+                            <option value="EB">Exabytes (EB)</option>
+                            <option value="EiB">Exbibytes (EiB)</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="result-section">
+                    <h3><i class="fas fa-chart-line"></i> Aggregated Capacity</h3>
+                    <div class="result-grid">
+                        <div class="result-item highlight">
+                            <div class="result-label">Total Raw Capacity</div>
+                            <div class="result-value" id="aggregated-capacity">0.00</div>
+                            <div class="result-unit" id="aggregated-unit">TB</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- RAID Configuration Card -->
+            <div class="input-panel">
+                <h2><i class="fas fa-hdd"></i> RAID Configuration</h2>
+                
+                <section class="config-section">
+                    <h3>RAID Parameters</h3>
+                    
+                    <div class="input-group">
+                        <label for="raid-num-drives">
+                            Number of Drives
+                            <span class="tooltip" data-tooltip="Total number of physical drives in the RAID array">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </label>
+                        <input type="number" id="raid-num-drives" min="2" max="1000" value="6" step="1" onchange="calculateRAID()">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="raid-drive-capacity">
+                            Drive Capacity
+                            <span class="tooltip" data-tooltip="Capacity of each individual drive">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </label>
+                        <input type="number" id="raid-drive-capacity" min="0.1" max="100" value="10" step="0.1" onchange="calculateRAID()">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="raid-drive-unit">Drive Unit</label>
+                        <select id="raid-drive-unit" onchange="calculateRAID()">
+                            <option value="GB">Gigabytes (GB)</option>
+                            <option value="GiB">Gibibytes (GiB)</option>
+                            <option value="TB" selected>Terabytes (TB)</option>
+                            <option value="TiB">Tebibytes (TiB)</option>
+                            <option value="PB">Petabytes (PB)</option>
+                            <option value="PiB">Pebibytes (PiB)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="raid-level">
+                            RAID Level
+                            <span class="tooltip" data-tooltip="Select RAID redundancy level">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </label>
+                        <select id="raid-level" onchange="handleRaidLevelChange()">
+                            <option value="0">RAID 0 (Striping - No Redundancy)</option>
+                            <option value="1">RAID 1 (Mirroring)</option>
+                            <option value="5" selected>RAID 5 (Single Parity)</option>
+                            <option value="6">RAID 6 (Double Parity)</option>
+                            <option value="10">RAID 10 (Mirrored Stripes)</option>
+                            <option value="50">RAID 50 (Striped RAID 5 Groups)</option>
+                            <option value="60">RAID 60 (Striped RAID 6 Groups)</option>
+                        </select>
+                    </div>
+
+                    <!-- Nested RAID Groups (for RAID 50/60) -->
+                    <div class="input-group" id="raid-groups-container" style="display: none;">
+                        <label for="raid-num-groups">
+                            Number of RAID Groups
+                            <span class="tooltip" data-tooltip="For nested RAID levels, number of RAID 5 or RAID 6 groups to stripe across">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </label>
+                        <input type="number" id="raid-num-groups" min="2" max="10" value="2" step="1" onchange="calculateRAID()">
+                    </div>
+                </section>
+
+                <section class="result-section">
+                    <h3><i class="fas fa-database"></i> RAID Capacity Results</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">Raw Capacity</div>
+                            <div class="result-value" id="raid-raw-capacity">—</div>
+                            <div class="result-unit" id="raid-raw-unit">TB</div>
+                        </div>
+                        <div class="result-item highlight">
+                            <div class="result-label">Usable Capacity</div>
+                            <div class="result-value" id="raid-usable-capacity">—</div>
+                            <div class="result-unit" id="raid-usable-unit">TB</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Efficiency</div>
+                            <div class="result-value" id="raid-efficiency">—</div>
+                            <div class="result-unit">%</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Overhead</div>
+                            <div class="result-value" id="raid-overhead">—</div>
+                            <div class="result-unit" id="raid-overhead-unit">TB</div>
+                        </div>
+                    </div>
+                    <div class="result-explanation" id="raid-explanation"></div>
+                </section>
+
+                <section class="result-section">
+                    <h3><i class="fas fa-shield-alt"></i> RAID Protection</h3>
+                    <div class="result-explanation" id="raid-protection-info"></div>
+                </section>
+            </div>
+        </section>
+
+        <!-- Object (Reed-Solomon EC) Calculator Section -->
+        <section id="reed-solomon-calculator" class="calculator-section">
+            <!-- Main Calculator Grid -->
+            <div class="calculator-grid">
+                
+                <!-- LEFT COLUMN: Input Parameters -->
+                <div class="input-panel">
+                    <h2><i class="fas fa-sliders-h"></i> Configuration Parameters</h2>
+                    
+                    <!-- Erasure Coding Scheme -->
+                    <section class="config-section">
+                        <h3>Erasure Coding Scheme</h3>
+                        <div class="scheme-display">
+                            <div class="scheme-visual">
+                                <span class="scheme-number" id="display-width">9</span>
+                                <span class="scheme-separator">-</span>
+                                <span class="scheme-number" id="display-threshold">6</span>
+                                <span class="scheme-separator">-</span>
+                                <span class="scheme-number" id="display-write-threshold">7</span>
+                            </div>
+                            <div class="scheme-label">Width - Threshold - Write Threshold</div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="width">
+                                Width (Total Storage Nodes)
+                                <span class="tooltip" data-tooltip="Total number of Storage Nodes in the cluster where data slices are distributed">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <input type="number" id="width" min="3" max="32" value="9" step="1">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="threshold">
+                                Threshold (Read Minimum)
+                                <span class="tooltip" data-tooltip="Minimum Storage Nodes required to reconstruct and read data">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <input type="number" id="threshold" min="1" max="32" value="6" step="1">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="write-threshold">
+                                Write Threshold (Write Minimum)
+                                <span class="tooltip" data-tooltip="Minimum Storage Nodes that must acknowledge a write for it to succeed">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <input type="number" id="write-threshold" min="1" max="32" value="7" step="1">
+                        </div>
+
+                        <div class="auto-calculated">
+                            <i class="fas fa-robot"></i> Rebuild Threshold: <span id="rebuild-threshold">6</span>
+                            <span class="auto-note">(auto-calculated)</span>
+                        </div>
+                    </section>
+
+                    <!-- Storage Node Configuration -->
+                    <section class="config-section">
+                        <h3>Storage Node Configuration</h3>
+                        
+                        <div class="input-group">
+                            <label for="drives-per-node">
+                                Drives per Storage Node
+                                <span class="tooltip" data-tooltip="Number of physical drives in each Storage Node">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <input type="number" id="drives-per-node" min="1" max="120" value="12" step="1">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="drive-capacity">
+                                Drive Capacity (TB)
+                                <span class="tooltip" data-tooltip="Capacity of each individual drive in terabytes">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <input type="number" id="drive-capacity" min="0.5" max="100" value="8" step="0.5">
+                        </div>
+                        
+                        <!-- Collapsible AFR Section -->
+                        <div class="collapsible-section">
+                            <div class="collapsible-header" id="afr-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                                <span>Advanced: Drive Failure Rate (AFR)</span>
+                            </div>
+                            <div class="collapsible-content" id="afr-content">
+                                <div class="input-group">
+                                    <label for="afr">
+                                        Annual Failure Rate (%)
+                                        <span class="tooltip" data-tooltip="Expected percentage of drives that fail annually (typical: 0.5-2%)">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
+                                    </label>
+                                    <input type="number" id="afr" min="0" max="10" value="0.5" step="0.1">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Site Topology -->
+                    <section class="config-section">
+                        <h3>Site Topology</h3>
+                        
+                        <div class="input-group">
+                            <label for="site-topology">
+                                Deployment Configuration
+                                <span class="tooltip" data-tooltip="Single Site: All nodes in one location. 3-Site: Nodes distributed across three geographic locations">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <select id="site-topology">
+                                <option value="single">Single Site</option>
+                                <option value="three-site">3-Site Configuration</option>
+                            </select>
+                        </div>
+
+                        <div class="site-warning" id="site-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Single Site Configuration:</strong> Zero site failure tolerance. Loss of site results in data unavailability.
+                        </div>
+                    </section>
+
+                    <!-- Calculate Button -->
+                    <button class="calculate-btn" id="calculate-btn">
+                        <i class="fas fa-calculator"></i> Calculate Results
+                    </button>
+                </div>
+
+                <!-- RIGHT COLUMN: Results & Analysis -->
+                <div class="results-panel">
+                    <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+
+                    <!-- Capacity Analysis -->
+                    <section class="result-section">
+                        <h3><i class="fas fa-database"></i> Capacity Analysis</h3>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Raw Capacity</div>
+                                <div class="result-value" id="raw-capacity">—</div>
+                                <div class="result-unit">TB</div>
+                            </div>
+                            <div class="result-item highlight">
+                                <div class="result-label">Usable Capacity</div>
+                                <div class="result-value" id="usable-capacity">—</div>
+                                <div class="result-unit">TB</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Storage Efficiency</div>
+                                <div class="result-value" id="storage-efficiency">—</div>
+                                <div class="result-unit">%</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Expansion Factor</div>
+                                <div class="result-value" id="expansion-factor">—</div>
+                                <div class="result-unit">×</div>
+                            </div>
+                        </div>
+                        <div class="result-explanation" id="capacity-explanation"></div>
+                    </section>
+
+                    <!-- Failure Tolerance -->
+                    <section class="result-section">
+                        <h3><i class="fas fa-shield-alt"></i> Failure Tolerance</h3>
+                        <div class="tolerance-grid">
+                            <div class="tolerance-item">
+                                <i class="fas fa-server"></i>
+                                <div class="tolerance-label">Storage Nodes (Read)</div>
+                                <div class="tolerance-value" id="node-read-tolerance">—</div>
+                            </div>
+                            <div class="tolerance-item">
+                                <i class="fas fa-server"></i>
+                                <div class="tolerance-label">Storage Nodes (Write)</div>
+                                <div class="tolerance-value" id="node-write-tolerance">—</div>
+                            </div>
+                            <div class="tolerance-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="tolerance-label">Site Failures</div>
+                                <div class="tolerance-value" id="site-tolerance">—</div>
+                            </div>
+                            <div class="tolerance-item">
+                                <i class="fas fa-hdd"></i>
+                                <div class="tolerance-label">Concurrent Drives</div>
+                                <div class="tolerance-value" id="drive-tolerance">—</div>
+                            </div>
+                        </div>
+                        <div class="result-explanation" id="tolerance-explanation"></div>
+                    </section>
+
+                    <!-- Availability & Durability -->
+                    <section class="result-section">
+                        <h3><i class="fas fa-heartbeat"></i> Availability & Durability</h3>
+                        <div class="availability-grid">
+                            <div class="availability-item">
+                                <div class="availability-label">Data Durability</div>
+                                <div class="availability-value" id="durability-nines">—</div>
+                                <div class="availability-sublabel" id="durability-percentage">—</div>
+                            </div>
+                            <div class="availability-item">
+                                <div class="availability-label">MTTDL (Mean Time To Data Loss)</div>
+                                <div class="availability-value" id="mttdl">—</div>
+                                <div class="availability-sublabel">years</div>
+                            </div>
+                        </div>
+                        <div class="result-explanation" id="availability-explanation"></div>
+                    </section>
+
+                    <!-- Performance Indicators -->
+                    <section class="result-section">
+                        <h3><i class="fas fa-tachometer-alt"></i> Performance Indicators</h3>
+                        <div class="performance-grid">
+                            <div class="performance-item">
+                                <div class="performance-label">Write Amplification</div>
+                                <div class="performance-value" id="write-amplification">—</div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-label">Rebuild Time Estimate</div>
+                                <div class="performance-value" id="rebuild-time">—</div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-label">Network Overhead</div>
+                                <div class="performance-value" id="network-overhead">—</div>
+                            </div>
+                        </div>
+                        <div class="result-explanation" id="performance-explanation"></div>
+                    </section>
+
+                    <!-- Educational Context -->
+                    <section class="result-section educational">
+                        <h3><i class="fas fa-graduation-cap"></i> Understanding Your Configuration</h3>
+                        <div id="educational-content"></div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- File (SMB/NFS) Calculator Section -->
+        <section id="file-smb-nfs-calculator" class="calculator-section">
+            <div class="placeholder">
+                <h2><i class="fas fa-folder-open"></i> File Storage Calculator</h2>
+                <p>For SMB/NFS file storage systems (Qumulo, Hammerspace, VAST, etc.).<br><br>Coming in next phase...</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>PreSales Calculator v2.5.0 - Storage Analysis Tools</p>
+            <p class="footer-note">Block (RAID), Object (Reed-Solomon EC), and File Storage calculators for enterprise storage planning</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========================================
+        // PRESALES CALCULATOR v2.5.0
+        // Multi-Calculator Platform
+        // ========================================
+
+        console.log('PreSales Calculator v2.5.0 - Initializing...');
+
+        // Global state management
+        const appState = {
+            calculatorType: '',
+            vendor: '',
+            ecConfig: {
+                width: 9,
+                threshold: 6,
+                writeThreshold: 7,
+                rebuildThreshold: 6,
+                drivesPerNode: 12,
+                driveCapacityTB: 8,
+                afr: 0.5,
+                siteTopology: 'single'
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigation();
+            setupReedSolomonCalculator();
+            console.log('All systems ready');
+        });
+
+        // ========================================
+        // NAVIGATION SYSTEM
+        // ========================================
+
+        function setupNavigation() {
+            const calculatorTypeSelect = document.getElementById('calculator-type');
+            const vendorGroup = document.getElementById('vendor-group');
+            const vendorSelect = document.getElementById('vendor-select');
+
+            // Calculator type change handler
+            calculatorTypeSelect.addEventListener('change', function() {
+                appState.calculatorType = this.value;
+                handleCalculatorTypeChange();
+            });
+
+            // Vendor select change handler
+            vendorSelect.addEventListener('change', function() {
+                appState.vendor = this.value;
+                handleVendorChange();
+            });
+
+            console.log('Navigation system initialized');
+        }
+
+        function handleCalculatorTypeChange() {
+            const vendorGroup = document.getElementById('vendor-group');
+            const calculatorType = appState.calculatorType;
+
+            // Hide all calculator sections
+            document.querySelectorAll('.calculator-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Reset vendor selection
+            document.getElementById('vendor-select').value = '';
+            appState.vendor = '';
+
+            // Show/hide vendor dropdown based on calculator type
+            if (calculatorType === 'reed-solomon') {
+                vendorGroup.classList.remove('hidden');
+            } else {
+                vendorGroup.classList.add('hidden');
+                
+                // Show calculator section for non-vendor-specific calculators
+                if (calculatorType === 'raid') {
+                    document.getElementById('raid-calculator').classList.add('active');
+                    initializeRAIDCalculator();
+                    console.log('Loaded Block (RAID) Calculator');
+                } else if (calculatorType === 'file-smb-nfs') {
+                    document.getElementById('file-smb-nfs-calculator').classList.add('active');
+                    console.log('Loaded File (SMB/NFS) Calculator');
+                }
+            }
+        }
+
+        function handleVendorChange() {
+            const vendor = appState.vendor;
+            
+            if (vendor && appState.calculatorType === 'reed-solomon') {
+                // Show Reed-Solomon calculator
+                document.getElementById('reed-solomon-calculator').classList.add('active');
+                console.log(`Loaded Object (Reed-Solomon EC) Calculator - ${vendor}`);
+                
+                // Initialize calculations
+                calculateReedSolomonResults();
+            }
+        }
+
+        // ========================================
+        // REED-SOLOMON EC CALCULATOR
+        // ========================================
+
+        function setupReedSolomonCalculator() {
+            // Setup event listeners
+            document.getElementById('width').addEventListener('input', updateScheme);
+            document.getElementById('threshold').addEventListener('input', updateScheme);
+            document.getElementById('write-threshold').addEventListener('input', updateScheme);
+            
+            document.getElementById('drives-per-node').addEventListener('input', updateECConfig);
+            document.getElementById('drive-capacity').addEventListener('input', updateECConfig);
+            document.getElementById('afr').addEventListener('input', updateECConfig);
+            
+            document.getElementById('site-topology').addEventListener('change', updateSiteTopology);
+            document.getElementById('calculate-btn').addEventListener('click', calculateReedSolomonResults);
+            
+            // Setup collapsible AFR section
+            setupCollapsible();
+            
+            console.log('Reed-Solomon calculator initialized');
+        }
+
+        function setupCollapsible() {
+            const toggle = document.getElementById('afr-toggle');
+            const content = document.getElementById('afr-content');
+            
+            toggle.addEventListener('click', function() {
+                toggle.classList.toggle('open');
+                content.classList.toggle('open');
+            });
+        }
+
+        function updateScheme() {
+            appState.ecConfig.width = parseInt(document.getElementById('width').value) || 9;
+            appState.ecConfig.threshold = parseInt(document.getElementById('threshold').value) || 6;
+            appState.ecConfig.writeThreshold = parseInt(document.getElementById('write-threshold').value) || 7;
+            
+            // Update visual display
+            document.getElementById('display-width').textContent = appState.ecConfig.width;
+            document.getElementById('display-threshold').textContent = appState.ecConfig.threshold;
+            document.getElementById('display-write-threshold').textContent = appState.ecConfig.writeThreshold;
+            
+            // Calculate rebuild threshold
+            appState.ecConfig.rebuildThreshold = appState.ecConfig.threshold;
+            document.getElementById('rebuild-threshold').textContent = appState.ecConfig.rebuildThreshold;
+        }
+
+        function updateECConfig() {
+            appState.ecConfig.drivesPerNode = parseInt(document.getElementById('drives-per-node').value) || 12;
+            appState.ecConfig.driveCapacityTB = parseFloat(document.getElementById('drive-capacity').value) || 8;
+            appState.ecConfig.afr = parseFloat(document.getElementById('afr').value) || 0.5;
+        }
+
+        function updateSiteTopology() {
+            appState.ecConfig.siteTopology = document.getElementById('site-topology').value;
+            const warning = document.getElementById('site-warning');
+            if (appState.ecConfig.siteTopology === 'single') {
+                warning.classList.remove('hidden');
+            } else {
+                warning.classList.add('hidden');
+            }
+        }
+
+        function calculateReedSolomonResults() {
+            console.log('Calculating Reed-Solomon results...', appState.ecConfig);
+            
+            // Update config from inputs
+            updateScheme();
+            updateECConfig();
+            
+            // Perform calculations
+            calculateCapacity();
+            calculateFailureTolerance();
+            calculateAvailability();
+            calculatePerformance();
+            generateEducationalContent();
+            
+            console.log('Calculation complete!');
+        }
+
+        function calculateCapacity() {
+            const config = appState.ecConfig;
+            const rawCapacityTB = config.width * config.drivesPerNode * config.driveCapacityTB;
+            const efficiency = (config.threshold / config.width) * 100;
+            const usableCapacityTB = rawCapacityTB * (config.threshold / config.width);
+            const expansionFactor = config.width / config.threshold;
+            
+            document.getElementById('raw-capacity').textContent = rawCapacityTB.toFixed(2);
+            document.getElementById('usable-capacity').textContent = usableCapacityTB.toFixed(2);
+            document.getElementById('storage-efficiency').textContent = efficiency.toFixed(1);
+            document.getElementById('expansion-factor').textContent = expansionFactor.toFixed(2);
+            
+            const overhead = rawCapacityTB - usableCapacityTB;
+            const overheadPercent = ((overhead / rawCapacityTB) * 100).toFixed(1);
+            
+            document.getElementById('capacity-explanation').innerHTML = `
+                <strong>Capacity Breakdown:</strong><br>
+                With a <code>${config.width}-${config.threshold}-${config.writeThreshold}</code> scheme, you write to ${config.width} Storage Nodes but only need ${config.threshold} nodes to reconstruct data. 
+                This provides <strong>${efficiency.toFixed(1)}% storage efficiency</strong> with <strong>${overheadPercent}% overhead</strong> (${overhead.toFixed(2)} TB) dedicated to erasure coding parity.
+                <br><br>
+                <strong>Formula:</strong> Usable = Raw × (Threshold / Width) = ${rawCapacityTB.toFixed(2)} TB × (${config.threshold}/${config.width}) = ${usableCapacityTB.toFixed(2)} TB
+            `;
+        }
+
+        function calculateFailureTolerance() {
+            const config = appState.ecConfig;
+            const nodeReadTolerance = config.width - config.threshold;
+            const nodeWriteTolerance = config.width - config.writeThreshold;
+            
+            let siteTolerance = 0;
+            if (config.siteTopology === 'three-site') {
+                const nodesPerSite = Math.ceil(config.width / 3);
+                siteTolerance = (config.width - nodesPerSite >= config.threshold) ? 1 : 0;
+            }
+            
+            const driveTolerance = nodeReadTolerance * config.drivesPerNode;
+            
+            document.getElementById('node-read-tolerance').textContent = `${nodeReadTolerance} nodes`;
+            document.getElementById('node-write-tolerance').textContent = `${nodeWriteTolerance} nodes`;
+            document.getElementById('site-tolerance').textContent = siteTolerance === 0 ? 'None' : `${siteTolerance} site`;
+            document.getElementById('drive-tolerance').textContent = `${driveTolerance} drives`;
+            
+            document.getElementById('tolerance-explanation').innerHTML = `
+                <strong>Failure Tolerance Analysis:</strong><br>
+                <strong>Read Operations:</strong> Can tolerate loss of <strong>${nodeReadTolerance} Storage Nodes</strong> (need ${config.threshold}/${config.width} nodes available).<br>
+                <strong>Write Operations:</strong> Can tolerate loss of <strong>${nodeWriteTolerance} Storage Nodes</strong> (need ${config.writeThreshold}/${config.width} nodes available).<br>
+                ${config.siteTopology === 'three-site' ? 
+                    `<strong>Site Failures:</strong> ${siteTolerance > 0 ? `Can survive loss of <strong>1 entire site</strong> with nodes distributed across 3 locations.` : `<strong>Cannot</strong> survive loss of entire site with current configuration.`}` : 
+                    `<strong>Site Failures:</strong> Single-site deployment has <strong>zero site failure tolerance</strong>.`
+                }
+            `;
+        }
+
+        function calculateAvailability() {
+            const config = appState.ecConfig;
+            const totalDrives = config.width * config.drivesPerNode;
+            const afrDecimal = config.afr / 100;
+            const mtbfSingleDrive = 8760 / afrDecimal;
+            const systemMTTFF = mtbfSingleDrive / totalDrives;
+            const nodeFailureTolerance = config.width - config.threshold;
+            const mttdlYears = (systemMTTFF / 8760) * Math.pow(100, nodeFailureTolerance);
+            const durabilityNines = 9 + nodeFailureTolerance;
+            const durabilityPercentage = (1 - Math.pow(10, -durabilityNines)) * 100;
+            
+            document.getElementById('durability-nines').textContent = `${durabilityNines} nines`;
+            document.getElementById('durability-percentage').textContent = `${durabilityPercentage.toFixed(10)}%`;
+            document.getElementById('mttdl').textContent = mttdlYears > 1000000 ? `${(mttdlYears / 1000000).toFixed(1)}M` : mttdlYears.toFixed(0);
+            
+            document.getElementById('availability-explanation').innerHTML = `
+                <strong>Durability & Reliability:</strong><br>
+                With <strong>${nodeFailureTolerance} node failure tolerance</strong> and <strong>${config.afr}% AFR</strong>, your data achieves approximately <strong>${durabilityNines} nines</strong> of durability.
+                <br><br>
+                <strong>MTTDL Calculation:</strong> Based on ${totalDrives} total drives across ${config.width} Storage Nodes. 
+                The erasure coding scheme dramatically extends MTTDL by allowing reconstruction from any ${config.threshold} nodes.
+                <br><br>
+                ${config.siteTopology === 'three-site' ? 
+                    `<strong>3-Site Enhancement:</strong> Geographic distribution provides additional resilience against site-level disasters.` : 
+                    `<strong>Single-Site Risk:</strong> All nodes in one location increases risk of correlated failures (power, network, natural disaster).`
+                }
+            `;
+        }
+
+        function calculatePerformance() {
+            const config = appState.ecConfig;
+            const writeAmplification = (config.width / config.threshold).toFixed(2);
+            const dataPerNode = config.drivesPerNode * config.driveCapacityTB;
+            const rebuildRateMBps = 100;
+            const rebuildTimeHours = (dataPerNode * 1024 * 1024) / (rebuildRateMBps * 3600);
+            const rebuildTimeFormatted = rebuildTimeHours > 24 ? `${(rebuildTimeHours / 24).toFixed(1)} days` : `${rebuildTimeHours.toFixed(1)} hrs`;
+            const networkOverhead = ((config.width - config.threshold) / config.threshold * 100).toFixed(1);
+            
+            document.getElementById('write-amplification').textContent = `${writeAmplification}×`;
+            document.getElementById('rebuild-time').textContent = rebuildTimeFormatted;
+            document.getElementById('network-overhead').textContent = `${networkOverhead}%`;
+            
+            document.getElementById('performance-explanation').innerHTML = `
+                <strong>Performance Considerations:</strong><br>
+                <strong>Write Amplification:</strong> For every 1 TB written by clients, <strong>${writeAmplification} TB</strong> is physically written across ${config.width} Storage Nodes.
+                <br><br>
+                <strong>Rebuild Time:</strong> Estimated time to rebuild a failed Storage Node with ${config.drivesPerNode} drives @ ${dataPerNode.toFixed(2)} TB. 
+                Actual time depends on network bandwidth, drive I/O, and concurrent rebuild streams.
+                <br><br>
+                <strong>Network Overhead:</strong> Erasure coding adds <strong>${networkOverhead}% network traffic</strong> compared to local writes, distributed across ${config.width} nodes.
+            `;
+        }
+
+        function generateEducationalContent() {
+            const config = appState.ecConfig;
+            const parityNodes = config.width - config.threshold;
+            const content = document.getElementById('educational-content');
+            
+            content.innerHTML = `
+                <ul>
+                    <li>
+                        <strong>Width (${config.width}):</strong> Your data is distributed across <code>${config.width} Storage Nodes</code>. 
+                        Each object is sliced and spread across all nodes for maximum parallelism.
+                    </li>
+                    <li>
+                        <strong>Threshold (${config.threshold}):</strong> You only need <code>${config.threshold} nodes</code> to reconstruct any object. 
+                        This means you can tolerate <strong>${parityNodes} simultaneous node failures</strong> without data loss.
+                    </li>
+                    <li>
+                        <strong>Write Threshold (${config.writeThreshold}):</strong> Writes must succeed to <code>${config.writeThreshold} nodes</code> before acknowledgment. 
+                        This ensures durability even if ${config.width - config.writeThreshold} nodes fail immediately after write.
+                    </li>
+                    <li>
+                        <strong>Why ${config.writeThreshold} > ${config.threshold}?</strong> The write threshold (${config.writeThreshold}) exceeds the read threshold (${config.threshold}) to guarantee you'll always have enough nodes to read after a write, even with immediate failures.
+                    </li>
+                    <li>
+                        <strong>Reed-Solomon Cauchy:</strong> This system uses advanced Galois Field mathematics (GF(2⁸)) to create parity information, 
+                        enabling efficient reconstruction from any ${config.threshold} available nodes.
+                    </li>
+                    <li>
+                        <strong>Storage Nodes vs Slices:</strong> Width represents <em>Storage Nodes</em>, not individual slices. 
+                        Each object is split into countless slices distributed across these ${config.width} nodes.
+                    </li>
+                    ${config.siteTopology === 'three-site' ? `
+                    <li>
+                        <strong>3-Site Architecture:</strong> Nodes distributed across 3 geographic locations provide resilience against 
+                        datacenter-level failures, natural disasters, and network partitions.
+                    </li>
+                    ` : `
+                    <li>
+                        <strong>Single-Site Risk:</strong> With all nodes in one location, consider risks like power outages, 
+                        network failures, or site-level disasters that could impact availability.
+                    </li>
+                    `}
+                    <li>
+                        <strong>Drive Density Impact:</strong> ${config.drivesPerNode} drives per node affects rebuild windows, 
+                        I/O parallelism, and failure domain granularity. Higher density = more capacity but longer rebuild times.
+                    </li>
+                </ul>
+            `;
+        }
+
+        // ========================================
+        // RAID CALCULATOR FUNCTIONS
+        // ========================================
+
+        // Global state for storage rows
+        let storageRowCounter = 0;
+
+        // Unit conversion tables
+        const unitConversions = {
+            'B': new Decimal(1),
+            'KB': new Decimal(1000),
+            'MB': new Decimal(1000).pow(2),
+            'GB': new Decimal(1000).pow(3),
+            'TB': new Decimal(1000).pow(4),
+            'PB': new Decimal(1000).pow(5),
+            'EB': new Decimal(1000).pow(6),
+            'KiB': new Decimal(1024),
+            'MiB': new Decimal(1024).pow(2),
+            'GiB': new Decimal(1024).pow(3),
+            'TiB': new Decimal(1024).pow(4),
+            'PiB': new Decimal(1024).pow(5),
+            'EiB': new Decimal(1024).pow(6)
+        };
+
+        // RAID formulas
+        const raidFormulas = {
+            '0': {
+                name: 'RAID 0',
+                description: 'Striping - 100% usable, no redundancy',
+                usable: (n) => new Decimal(1),
+                minDrives: 2,
+                protection: 'None - Any drive failure causes total data loss'
+            },
+            '1': {
+                name: 'RAID 1',
+                description: 'Mirroring - 50% usable, full redundancy',
+                usable: (n) => new Decimal(0.5),
+                minDrives: 2,
+                protection: 'Can lose 1 drive (50% of array)'
+            },
+            '5': {
+                name: 'RAID 5',
+                description: 'Single parity - (N-1)/N usable',
+                usable: (n) => new Decimal(n - 1).div(n),
+                minDrives: 3,
+                protection: 'Can lose 1 drive'
+            },
+            '6': {
+                name: 'RAID 6',
+                description: 'Double parity - (N-2)/N usable',
+                usable: (n) => new Decimal(n - 2).div(n),
+                minDrives: 4,
+                protection: 'Can lose 2 drives simultaneously'
+            },
+            '10': {
+                name: 'RAID 10',
+                description: 'Mirrored stripes - 50% usable',
+                usable: (n) => new Decimal(0.5),
+                minDrives: 4,
+                protection: 'Can lose 1 drive per mirrored pair'
+            },
+            '50': {
+                name: 'RAID 50',
+                description: 'Striped RAID 5 groups',
+                usable: (n, groups) => {
+                    const drivesPerGroup = Math.floor(n / groups);
+                    return new Decimal(drivesPerGroup - 1).div(drivesPerGroup);
+                },
+                minDrives: 6,
+                minGroups: 2,
+                protection: 'Can lose 1 drive per RAID 5 group'
+            },
+            '60': {
+                name: 'RAID 60',
+                description: 'Striped RAID 6 groups',
+                usable: (n, groups) => {
+                    const drivesPerGroup = Math.floor(n / groups);
+                    return new Decimal(drivesPerGroup - 2).div(drivesPerGroup);
+                },
+                minDrives: 8,
+                minGroups: 2,
+                protection: 'Can lose 2 drives per RAID 6 group'
+            }
+        };
+
+        // Storage Aggregation Functions
+        function addStorageRow() {
+            const id = ++storageRowCounter;
+            const container = document.getElementById('storage-inputs-container');
+            
+            const row = document.createElement('div');
+            row.className = 'storage-input-row';
+            row.id = `storage-row-${id}`;
+            row.innerHTML = `
+                <input type="number" id="storage-quantity-${id}" placeholder="Quantity" min="0" step="0.01" oninput="calculateStorageAggregation()">
+                <select id="storage-unit-${id}" onchange="calculateStorageAggregation()">
+                    <option value="B">Bytes (B)</option>
+                    <option value="KB">Kilobytes (KB)</option>
+                    <option value="KiB">Kibibytes (KiB)</option>
+                    <option value="MB">Megabytes (MB)</option>
+                    <option value="MiB">Mebibytes (MiB)</option>
+                    <option value="GB">Gigabytes (GB)</option>
+                    <option value="GiB">Gibibytes (GiB)</option>
+                    <option value="TB" selected>Terabytes (TB)</option>
+                    <option value="TiB">Tebibytes (TiB)</option>
+                    <option value="PB">Petabytes (PB)</option>
+                    <option value="PiB">Pebibytes (PiB)</option>
+                    <option value="EB">Exabytes (EB)</option>
+                    <option value="EiB">Exbibytes (EiB)</option>
+                </select>
+                <button onclick="removeStorageRow(${id})">✕</button>
+            `;
+            container.appendChild(row);
+            calculateStorageAggregation();
+        }
+
+        function removeStorageRow(id) {
+            const row = document.getElementById(`storage-row-${id}`);
+            if (row) {
+                row.remove();
+                calculateStorageAggregation();
+            }
+        }
+
+        function calculateStorageAggregation() {
+            let totalBytes = new Decimal(0);
+            const rows = document.querySelectorAll('.storage-input-row');
+            
+            rows.forEach(row => {
+                const quantityInput = row.querySelector('input[type="number"]');
+                const unitSelect = row.querySelector('select');
+                
+                if (quantityInput && unitSelect && quantityInput.value) {
+                    const quantity = new Decimal(quantityInput.value);
+                    const unitBytes = unitConversions[unitSelect.value];
+                    totalBytes = totalBytes.plus(quantity.times(unitBytes));
+                }
+            });
+
+            const outputUnit = document.getElementById('output-unit').value;
+            const outputUnitBytes = unitConversions[outputUnit];
+            const aggregated = totalBytes.div(outputUnitBytes);
+
+            document.getElementById('aggregated-capacity').textContent = aggregated.toFixed(2);
+            document.getElementById('aggregated-unit').textContent = outputUnit;
+        }
+
+        // RAID Calculator Functions
+        function handleRaidLevelChange() {
+            const raidLevel = document.getElementById('raid-level').value;
+            const groupsContainer = document.getElementById('raid-groups-container');
+            
+            if (raidLevel === '50' || raidLevel === '60') {
+                groupsContainer.style.display = 'block';
+            } else {
+                groupsContainer.style.display = 'none';
+            }
+            
+            calculateRAID();
+        }
+
+        function calculateRAID() {
+            const numDrives = parseInt(document.getElementById('raid-num-drives').value);
+            const driveCapacity = parseFloat(document.getElementById('raid-drive-capacity').value);
+            const driveUnit = document.getElementById('raid-drive-unit').value;
+            const raidLevel = document.getElementById('raid-level').value;
+            const outputUnit = document.getElementById('output-unit').value;
+
+            if (!numDrives || !driveCapacity || numDrives < 1 || driveCapacity <= 0) {
+                document.getElementById('raid-raw-capacity').textContent = '—';
+                document.getElementById('raid-usable-capacity').textContent = '—';
+                document.getElementById('raid-efficiency').textContent = '—';
+                document.getElementById('raid-overhead').textContent = '—';
+                document.getElementById('raid-explanation').innerHTML = '<em>Enter valid drive configuration</em>';
+                document.getElementById('raid-protection-info').innerHTML = '';
+                return;
+            }
+
+            const raidConfig = raidFormulas[raidLevel];
+            
+            // Check minimum drives
+            if (numDrives < raidConfig.minDrives) {
+                document.getElementById('raid-explanation').innerHTML = 
+                    `<strong style="color: var(--accent-red);">Error:</strong> ${raidConfig.name} requires minimum ${raidConfig.minDrives} drives. You have ${numDrives} drives.`;
+                return;
+            }
+
+            // Calculate raw capacity
+            const driveUnitBytes = unitConversions[driveUnit];
+            const totalRawBytes = new Decimal(driveCapacity).times(driveUnitBytes).times(numDrives);
+
+            // Calculate usable ratio
+            let usableRatio;
+            if (raidLevel === '50' || raidLevel === '60') {
+                const numGroups = parseInt(document.getElementById('raid-num-groups').value) || 2;
+                const minGroups = raidConfig.minGroups;
+                
+                if (numGroups < minGroups) {
+                    document.getElementById('raid-explanation').innerHTML = 
+                        `<strong style="color: var(--accent-red);">Error:</strong> ${raidConfig.name} requires minimum ${minGroups} RAID groups.`;
+                    return;
+                }
+                
+                if (numDrives % numGroups !== 0) {
+                    document.getElementById('raid-explanation').innerHTML = 
+                        `<strong style="color: var(--accent-red);">Error:</strong> Number of drives must be evenly divisible by number of groups.`;
+                    return;
+                }
+                
+                usableRatio = raidConfig.usable(numDrives, numGroups);
+            } else {
+                usableRatio = raidConfig.usable(numDrives);
+            }
+
+            const usableBytes = totalRawBytes.times(usableRatio);
+            const outputUnitBytes = unitConversions[outputUnit];
+            const rawCapacityFormatted = totalRawBytes.div(outputUnitBytes);
+            const usableCapacityFormatted = usableBytes.div(outputUnitBytes);
+            const overheadBytes = totalRawBytes.minus(usableBytes);
+            const overheadPercent = overheadBytes.div(totalRawBytes).times(100);
+            const efficiencyPercent = usableRatio.times(100);
+
+            // Update UI
+            document.getElementById('raid-raw-capacity').textContent = rawCapacityFormatted.toFixed(2);
+            document.getElementById('raid-raw-unit').textContent = outputUnit;
+            document.getElementById('raid-usable-capacity').textContent = usableCapacityFormatted.toFixed(2);
+            document.getElementById('raid-usable-unit').textContent = outputUnit;
+            document.getElementById('raid-efficiency').textContent = efficiencyPercent.toFixed(1);
+            document.getElementById('raid-overhead').textContent = overheadBytes.div(outputUnitBytes).toFixed(2);
+            document.getElementById('raid-overhead-unit').textContent = outputUnit;
+
+            // Explanation
+            let explanationHTML = `<strong>${raidConfig.name}:</strong> ${raidConfig.description}<br>`;
+            explanationHTML += `<strong>Efficiency:</strong> ${efficiencyPercent.toFixed(1)}% usable capacity<br>`;
+            explanationHTML += `<strong>Overhead:</strong> ${overheadPercent.toFixed(1)}% (${overheadBytes.div(outputUnitBytes).toFixed(2)} ${outputUnit})`;
+            
+            if (raidLevel === '50' || raidLevel === '60') {
+                const numGroups = parseInt(document.getElementById('raid-num-groups').value) || 2;
+                const drivesPerGroup = Math.floor(numDrives / numGroups);
+                explanationHTML += `<br><strong>Configuration:</strong> ${numGroups} groups × ${drivesPerGroup} drives per group`;
+            }
+            
+            document.getElementById('raid-explanation').innerHTML = explanationHTML;
+
+            // Protection info
+            let protectionHTML = `<strong>Data Protection:</strong> ${raidConfig.protection}<br>`;
+            if (raidLevel === '5') {
+                protectionHTML += `<strong>Parity:</strong> 1 parity drive (${(100/numDrives).toFixed(1)}% overhead)<br>`;
+                protectionHTML += `<strong>Rebuild:</strong> Array can rebuild from any ${numDrives - 1} drives`;
+            } else if (raidLevel === '6') {
+                protectionHTML += `<strong>Parity:</strong> 2 parity drives (${(200/numDrives).toFixed(1)}% overhead)<br>`;
+                protectionHTML += `<strong>Rebuild:</strong> Array can rebuild from any ${numDrives - 2} drives`;
+            } else if (raidLevel === '1' || raidLevel === '10') {
+                protectionHTML += `<strong>Mirror:</strong> Full data duplication across drives<br>`;
+                protectionHTML += `<strong>Performance:</strong> Improved read performance, write penalty`;
+            } else if (raidLevel === '0') {
+                protectionHTML += `<strong style="color: var(--accent-red);">⚠️ Warning:</strong> No redundancy - any drive failure = total data loss`;
+            }
+            
+            document.getElementById('raid-protection-info').innerHTML = protectionHTML;
+        }
+
+        // Initialize RAID calculator with one storage row
+        function initializeRAIDCalculator() {
+            if (document.getElementById('storage-inputs-container').children.length === 0) {
+                addStorageRow();
+            }
+            calculateStorageAggregation();
+            calculateRAID();
+        }
+
+        console.log('PreSales Calculator v2.5.0 - Scripts loaded successfully!');
+    </script>
+</body>
+</html>

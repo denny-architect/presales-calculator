@@ -1,0 +1,40 @@
+{
+  "name": "presales-calculator",
+  "version": "2.0.0",
+  "description": "High-Precision Storage & Network Configuration Tool for Enterprise Pre-Sales Engineers",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -o",
+    "lighthouse": "lhci autorun",
+    "deploy": "echo 'Deploy via GitHub Actions'",
+    "version": "npm version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/presales-calculator.git"
+  },
+  "keywords": [
+    "presales",
+    "storage-calculator",
+    "raid-calculator",
+    "erasure-coding",
+    "network-calculator",
+    "lacp",
+    "switch-configuration",
+    "capacity-planning",
+    "enterprise-tools",
+    "genspark-hackathon"
+  ],
+  "author": "Denny <denny@example.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/presales-calculator/issues"
+  },
+  "homepage": "https://YOUR_USERNAME.github.io/presales-calculator/",
+  "devDependencies": {
+    "@lhci/cli": "^0.13.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
