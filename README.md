@@ -1,6 +1,8 @@
-# 🧮 PreSales Calculator v2.5.0
+# 🧮 PreSales Calculator v2.5.0 - Open Source Edition
 
 **Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers**
+
+> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (MinIO, Scality, File storage), please [contact me](#-contact).
 
 A comprehensive web application for storage architects, pre-sales engineers, and technical teams to understand storage configurations, capacity planning, and failure tolerance analysis across Block, Object, and File storage protocols.
 
@@ -14,16 +16,13 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 2. **Object (Reed-Solomon EC)** - Erasure coding for object storage systems
 3. **File (SMB/NFS)** - File storage calculators (Coming soon)
 
-### **Current Vendor Support:**
+### **Current Vendor Support (Open Source Edition):**
 
 **Object Storage:**
 - ✅ **Cleversafe** - Reed-Solomon Cauchy EC (Fully implemented)
-- 🚧 **MinIO** - Coming soon
-- 🚧 **Scality RING** - Coming soon  
-- 🚧 **Scality Artesca** - S3-only implementation (Coming soon)
 
-**File Storage:**
-- 🚧 Qumulo, VAST, Hammerspace - Planned
+**Additional Vendors:**
+- Additional vendor implementations are available in the full version. [Contact me](#-contact) for details.
 
 ---
 
@@ -454,6 +453,33 @@ Copyright (c) 2025 [Your Name]
 
 ---
 
-**Built with ❤️ by a storage architect for storage professionals worldwide**
+## 📬 Contact
 
-*Last Updated: October 2025*
+**Denny Kalaf** - Technology Architect & Storage Solutions Expert
+
+- **LinkedIn:** [linkedin.com/in/dennykalaf](https://linkedin.com/in/dennykalaf)
+- **Email:** [email protected]
+- **GitHub:** [@denny-architect](https://github.com/denny-architect)
+
+### **Get the Full Version**
+
+This Open Source Edition includes the Cleversafe calculator. The full private version includes:
+- ✅ MinIO Reed-Solomon EC calculator
+- ✅ Scality RING calculator  
+- ✅ Scality Artesca calculator
+- ✅ File storage calculators (Qumulo, VAST, Hammerspace)
+- ✅ Advanced comparison tools
+
+**Interested in:**
+- 💼 Enterprise consulting and custom calculator development
+- 🤝 Collaboration on storage solutions
+- 📊 Full version access for your organization
+- 🎓 Training and workshops
+
+**Let's connect!** Reach out via LinkedIn or email.
+
+---
+
+**Built with ❤️ by Denny Kalaf for storage professionals worldwide**
+
+*PreSales Calculator v2.5.0 - Open Source Edition | Last Updated: October 2025*

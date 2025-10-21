@@ -1,16 +1,17 @@
-# 🚀 Quick Start Guide - PreSales Calculator v2.5.0
+# 🚀 Quick Start Guide - PreSales Calculator v2.5.0 (Open Source Edition)
 
 Get up and running in **60 seconds** with the PreSales Calculator!
+
+> **Note:** This Open Source Edition includes the Cleversafe calculator. For additional vendors and enterprise features, see [Contact section](README.md#-contact).
 
 ---
 
 ## 🎯 Choose Your Calculator
 
-PreSales Calculator v2.5.0 offers three storage protocol calculators:
+PreSales Calculator v2.5.0 Open Source Edition offers:
 
-1. **Block (RAID)** - Traditional RAID configurations
-2. **Object (Reed-Solomon EC)** - Erasure coding for object storage
-3. **File (SMB/NFS)** - File storage (Coming soon)
+1. **Block (RAID)** - Traditional RAID configurations (all 7 RAID levels)
+2. **Object (Reed-Solomon EC)** - Cleversafe erasure coding calculator
 
 ---
 
