@@ -2,7 +2,7 @@
 
 **Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers**
 
-> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (MinIO, Scality, Vast, Qumulo), please [contact me](#-contact).
+> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (MinIO, Scality, Qumulo, VAST), please [contact me](#-contact).
 
 A comprehensive web application for storage architects, pre-sales engineers, and technical teams to understand storage configurations, capacity planning, and failure tolerance analysis across Block, Object, and File storage protocols.
 
@@ -14,7 +14,7 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 
 1. **Block (RAID)** - Traditional RAID 0/1/5/6/10/50/60 with storage aggregation
 2. **Object (Reed-Solomon EC)** - Erasure coding for object storage systems
-3. **File (SMB/NFS)** - File storage calculators (Coming soon)
+3. **File (SMB/NFS)** - File storage calculators (VAST, Qumulo,coming soon)
 
 ### **Current Vendor Support (Open Source Edition):**
 
