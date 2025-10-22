@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.5.2] - 2025-10-23
+
+### 🧹 **Cleanup Release**
+
+Removed internal documentation and strategic references from public repository.
+
+### Removed
+- 8 internal documentation files (session notes, build logs, guides)
+- Strategic vendor references from changelog and documentation
+- Files removed: PRIVATE_VERSION_SNAPSHOT.md, PUBLIC_VERSION_READY.md, SESSION_START_GUIDE.md, NEW_SESSION_PROMPT.md, TONIGHT_SUMMARY.md, GIT_CHEAT_SHEET_DENNY.md, V2.5_BUILD_COMPLETE.md, PROGRESS_UPDATE.md
+
+### Changed
+- Cleaned CHANGELOG.md to focus on implemented features
+- Updated roadmap to reflect current public offering
+
+---
+
 ## [2.5.1] - 2025-10-22
 
 ### 📝 **Documentation Release**
@@ -50,7 +67,6 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
   - Educational content with step-by-step explanations
 - **Vendor support architecture**
   - Cleversafe (active)
-  - MinIO (Coming Soon - disabled)
   - Scality RING (Coming Soon - disabled)
   - Scality Artesca (Coming Soon - disabled)
 - **File (SMB/NFS) Calculator placeholder** for future file storage implementations
@@ -86,7 +102,7 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 - **47 legacy files deleted** in cleanup operation:
   - 18 v2.1/v2.2 documentation files
   - 8 icon generation/troubleshooting files
-  - 6 MinIO research files (not implemented)
+  - 6 vendor research files (not implemented)
   - 5 hackathon/deployment files
   - 5 old GitHub/community files
   - 5 miscellaneous outdated files
@@ -129,12 +145,9 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 
 ## [2.2.0] - 2025-10-20
 
-### Added
-- MinIO enhancement planning
-- Implementation roadmap for MinIO vendor support
-
 ### Changed
 - Prepared architecture for multi-vendor support
+- Internal enhancement planning
 
 ---
 
@@ -192,7 +205,7 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 |---------|------|-------|--------|
 | **2.5.0** | 2025-10-21 | Multi-calculator platform rebuild | ✅ Current |
 | 2.2.1 | 2025-10-20 | UI refinements | Superseded |
-| 2.2.0 | 2025-10-20 | MinIO planning | Superseded |
+| 2.2.0 | 2025-10-20 | Vendor planning | Superseded |
 | 2.1.0 | 2025-10-19 | EC algorithm complete | Superseded |
 | 2.0.0 | 2025-10-18 | Initial release | Superseded |
 
@@ -206,12 +219,7 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 - [ ] HPE-specific configurations
 - [ ] Multi-site topology calculator enhancements
 
-### [2.7.0] - MinIO Support (Planned)
-- [ ] MinIO erasure coding calculator
-- [ ] MinIO-specific schemes and configurations
-- [ ] Performance modeling for MinIO deployments
-
-### [2.8.0] - File Storage Calculators (Planned)
+### [2.7.0] - File Storage Calculators (Planned)
 - [ ] Qumulo scale-out NAS calculator
 - [ ] VAST Data Universal Storage calculator
 - [ ] Hammerspace Global Data Platform calculator
