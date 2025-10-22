@@ -2,7 +2,7 @@
 
 **Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers**
 
-> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (MinIO, Scality, Qumulo, VAST), please [contact me](#-contact).
+> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (Scality, Qumulo, VAST), please [contact me](#-contact).
 
 A comprehensive web application for storage architects, pre-sales engineers, and technical teams to understand storage configurations, capacity planning, and failure tolerance analysis across Block, Object, and File storage protocols.
 
@@ -129,7 +129,7 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 Calculator Type Dropdown
 ├── Block (RAID)
 ├── Object (Reed-Solomon EC)
-│   └── Vendor Dropdown (Cleversafe, MinIO, Scality RING, Scality Artesca)
+│   └── Vendor Dropdown (Cleversafe, Scality RING, Scality Artesca)
 └── File (SMB/NFS)
 ```
 
@@ -321,9 +321,6 @@ Automated workflow includes:
 - [ ] HPE-specific configurations
 - [ ] Multi-site topology calculator
 
-### **v2.7.0 - MinIO Support**
-- [ ] MinIO erasure coding calculator
-- [ ] MinIO-specific schemes
 - [ ] Performance modeling
 
 ### **v2.8.0 - File Storage Calculators**
@@ -464,7 +461,6 @@ Copyright (c) 2025 [Your Name]
 ### **Get the Full Version**
 
 This Open Source Edition includes the Cleversafe calculator. The full private version includes:
-- ✅ MinIO Reed-Solomon EC calculator
 - ✅ Scality RING calculator  
 - ✅ Scality Artesca calculator
 - ✅ File storage calculators (Qumulo, VAST)
