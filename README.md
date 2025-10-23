@@ -352,8 +352,7 @@ Automated workflow includes:
 This is currently a private project under active development. Contributions are not accepted at this time.
 
 For questions, feedback, or collaboration inquiries, contact:
-- **LinkedIn:** [Your LinkedIn Profile]
-- **Email:** [Your Email]
+- **LinkedIn:** [https://www.linkedin.com/in/dennykalaf/]
 
 ---
 
@@ -361,7 +360,7 @@ For questions, feedback, or collaboration inquiries, contact:
 
 MIT License - See [LICENSE](LICENSE) file for details
 
-Copyright (c) 2025 [Your Name]
+Copyright (c) 2025 [Dennis. A. Kalafe]
 
 ---
 
@@ -369,7 +368,7 @@ Copyright (c) 2025 [Your Name]
 
 ### **Technology**
 - **Decimal.js** - Precision arithmetic library
-- **Google Fonts** - IBM Plex Sans typography
+- **Google Fonts** - Sans typography
 - **GitHub Actions** - CI/CD automation
 
 ### **Inspiration**
@@ -455,7 +454,6 @@ Copyright (c) 2025 [Your Name]
 **Denny Kalaf** - Technology Architect & Storage Solutions Expert
 
 - **LinkedIn:** [linkedin.com/in/dennykalaf](https://linkedin.com/in/dennykalaf)
-- **Email:** [email protected]
 - **GitHub:** [@denny-architect](https://github.com/denny-architect)
 
 ### **Get the Full Version**
