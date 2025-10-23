@@ -3,508 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAID Calculator Test Suite</title>
+    <title>RAID Calculator Test Suite - PreSales Calculator v2.5.3</title>
     <script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: #1a1a2e;
-            color: #f4f4f4;
-            padding: 30px;
-            line-height: 1.6;
-        }
-        .test-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
         }
         h1 {
-            color: #00d4ff;
-            border-bottom: 2px solid #00d4ff;
+            color: #333;
+            border-bottom: 3px solid #0062ff;
             padding-bottom: 10px;
         }
         .test-section {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid #3a3a5a;
+            background: white;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .test-result {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
+        .test-case {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid #ddd;
+            background: #fafafa;
         }
-        .pass {
-            background: rgba(36, 161, 72, 0.3);
-            border-left: 4px solid #24a148;
+        .test-case.pass {
+            border-left-color: #24a148;
+            background: #f0fdf4;
         }
-        .fail {
-            background: rgba(218, 30, 40, 0.3);
-            border-left: 4px solid #da1e28;
+        .test-case.fail {
+            border-left-color: #da1e28;
+            background: #fef2f2;
         }
         .test-name {
-            font-weight: bold;
-            color: #00d4ff;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
         }
-        .test-details {
-            margin-top: 5px;
-            font-size: 0.9rem;
-            color: #c6c6c6;
+        .test-result {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #666;
         }
         .summary {
-            background: rgba(0, 98, 255, 0.2);
-            border: 2px solid #0062ff;
-            border-radius: 8px;
+            background: #0062ff;
+            color: white;
             padding: 20px;
+            border-radius: 8px;
             margin-top: 30px;
             text-align: center;
         }
         .summary h2 {
-            color: #0062ff;
-            margin-bottom: 15px;
+            margin: 0 0 10px 0;
         }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 15px;
-        }
-        .stat {
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 6px;
-        }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #c6c6c6;
-            margin-top: 5px;
-        }
+        .pass-count { color: #24a148; font-weight: bold; }
+        .fail-count { color: #da1e28; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="test-container">
-        <h1>🧮 RAID Calculator Test Suite - PreSales Calculator v2.5.2</h1>
-        <div id="test-output"></div>
-        <div id="summary" class="summary" style="display: none;">
-            <h2>Test Summary</h2>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value" style="color: #24a148;" id="pass-count">0</div>
-                    <div class="stat-label">Tests Passed</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" style="color: #da1e28;" id="fail-count">0</div>
-                    <div class="stat-label">Tests Failed</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" style="color: #00d4ff;" id="total-count">0</div>
-                    <div class="stat-label">Total Tests</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>🧮 RAID Calculator Test Suite - PreSales Calculator v2.5.3</h1>
+    
+    <div id="test-results"></div>
+    <div id="summary" class="summary"></div>
 
     <script>
-        // Test tracking
-        let testResults = [];
-        let passCount = 0;
-        let failCount = 0;
+        // Test Framework
+        const testResults = [];
 
-        // Unit conversions (copied from main calculator)
-        const unitConversions = {
-            'B': new Decimal(1),
-            'KB': new Decimal(1000),
-            'MB': new Decimal(1000).pow(2),
-            'GB': new Decimal(1000).pow(3),
-            'TB': new Decimal(1000).pow(4),
-            'PB': new Decimal(1000).pow(5),
-            'EB': new Decimal(1000).pow(6),
-            'KiB': new Decimal(1024),
-            'MiB': new Decimal(1024).pow(2),
-            'GiB': new Decimal(1024).pow(3),
-            'TiB': new Decimal(1024).pow(4),
-            'PiB': new Decimal(1024).pow(5),
-            'EiB': new Decimal(1024).pow(6)
-        };
-
-        // RAID formulas (copied from main calculator)
-        const raidFormulas = {
-            '0': {
-                name: 'RAID 0',
-                usable: (n) => new Decimal(1),
-                minDrives: 2,
-                protection: 'None - Any drive failure causes total data loss',
-                description: 'Striping across all drives with no redundancy'
-            },
-            '1': {
-                name: 'RAID 1',
-                usable: (n) => new Decimal(1).div(2),
-                minDrives: 2,
-                protection: 'Can lose 1 drive',
-                description: 'Full mirroring - 50% storage efficiency'
-            },
-            '5': {
-                name: 'RAID 5',
-                usable: (n) => new Decimal(n - 1).div(n),
-                minDrives: 3,
-                protection: 'Can lose 1 drive',
-                description: 'Single parity distributed across all drives'
-            },
-            '6': {
-                name: 'RAID 6',
-                usable: (n) => new Decimal(n - 2).div(n),
-                minDrives: 4,
-                protection: 'Can lose 2 drives simultaneously',
-                description: 'Dual parity distributed across all drives'
-            },
-            '10': {
-                name: 'RAID 10',
-                usable: (n) => new Decimal(1).div(2),
-                minDrives: 4,
-                protection: 'Can lose 1 drive per mirrored pair',
-                description: 'Striped mirrors - combines RAID 0 and RAID 1'
-            },
-            '50': {
-                name: 'RAID 50',
-                usable: (n, groups) => {
-                    const drivesPerGroup = Math.floor(n / groups);
-                    return new Decimal(drivesPerGroup - 1).div(drivesPerGroup);
-                },
-                minDrives: 6,
-                minGroups: 2,
-                protection: 'Can lose 1 drive per RAID 5 group',
-                description: 'Multiple RAID 5 arrays striped together'
-            },
-            '60': {
-                name: 'RAID 60',
-                usable: (n, groups) => {
-                    const drivesPerGroup = Math.floor(n / groups);
-                    return new Decimal(drivesPerGroup - 2).div(drivesPerGroup);
-                },
-                minDrives: 8,
-                minGroups: 2,
-                protection: 'Can lose 2 drives per RAID 6 group',
-                description: 'Multiple RAID 6 arrays striped together'
-            }
-        };
-
-        // Helper functions
-        function logTest(name, passed, details = '') {
-            testResults.push({ name, passed, details });
-            if (passed) {
-                passCount++;
-            } else {
-                failCount++;
-            }
-        }
-
-        function displayResults() {
-            const output = document.getElementById('test-output');
-            const summary = document.getElementById('summary');
-            
-            let html = '';
-            let currentSection = '';
-            
-            testResults.forEach(result => {
-                // Check if this is a section header (starts with emoji or has specific format)
-                if (result.name.includes('===') || result.name.startsWith('🔹')) {
-                    if (currentSection) {
-                        html += '</div>';
-                    }
-                    html += `<div class="test-section"><h2>${result.name.replace(/===/g, '').trim()}</h2>`;
-                    currentSection = result.name;
-                } else {
-                    const className = result.passed ? 'pass' : 'fail';
-                    const icon = result.passed ? '✅' : '❌';
-                    html += `
-                        <div class="test-result ${className}">
-                            <div class="test-name">${icon} ${result.name}</div>
-                            ${result.details ? `<div class="test-details">${result.details}</div>` : ''}
-                        </div>
-                    `;
-                }
+        function assert(name, condition, expected, actual) {
+            const passed = condition;
+            testResults.push({
+                name,
+                passed,
+                expected,
+                actual
             });
             
-            if (currentSection) {
-                html += '</div>';
+            const testCase = document.createElement('div');
+            testCase.className = `test-case ${passed ? 'pass' : 'fail'}`;
+            testCase.innerHTML = `
+                <div class="test-name">${passed ? '✅' : '❌'} ${name}</div>
+                <div class="test-result">
+                    Expected: ${expected}<br>
+                    Actual: ${actual}
+                </div>
+            `;
+            document.getElementById('test-results').appendChild(testCase);
+        }
+
+        // Storage Unit Conversion Functions (from main calculator)
+        function convertToBytes(value, unit) {
+            const decimal = new Decimal(value);
+            const conversions = {
+                'B': new Decimal(1),
+                'KB': new Decimal(1000),
+                'KiB': new Decimal(1024),
+                'MB': new Decimal(1000).pow(2),
+                'MiB': new Decimal(1024).pow(2),
+                'GB': new Decimal(1000).pow(3),
+                'GiB': new Decimal(1024).pow(3),
+                'TB': new Decimal(1000).pow(4),
+                'TiB': new Decimal(1024).pow(4),
+                'PB': new Decimal(1000).pow(5),
+                'PiB': new Decimal(1024).pow(5),
+                'EB': new Decimal(1000).pow(6),
+                'EiB': new Decimal(1024).pow(6)
+            };
+            return decimal.times(conversions[unit]);
+        }
+
+        function convertFromBytes(bytes, unit) {
+            const decimal = new Decimal(bytes);
+            const conversions = {
+                'B': new Decimal(1),
+                'KB': new Decimal(1000),
+                'KiB': new Decimal(1024),
+                'MB': new Decimal(1000).pow(2),
+                'MiB': new Decimal(1024).pow(2),
+                'GB': new Decimal(1000).pow(3),
+                'GiB': new Decimal(1024).pow(3),
+                'TB': new Decimal(1000).pow(4),
+                'TiB': new Decimal(1024).pow(4),
+                'PB': new Decimal(1000).pow(5),
+                'PiB': new Decimal(1024).pow(5),
+                'EB': new Decimal(1000).pow(6),
+                'EiB': new Decimal(1024).pow(6)
+            };
+            return decimal.dividedBy(conversions[unit]).toFixed(2);
+        }
+
+        // RAID Calculation Functions
+        function calculateRAID(raidLevel, numDrives, driveCapacityTB, hotSpares = 0) {
+            const effectiveDrives = numDrives - hotSpares;
+            let usableCapacity, failureTolerance;
+
+            switch(raidLevel) {
+                case '0':
+                    usableCapacity = effectiveDrives * driveCapacityTB;
+                    failureTolerance = 0;
+                    break;
+                case '1':
+                    usableCapacity = (effectiveDrives / 2) * driveCapacityTB;
+                    failureTolerance = 1;
+                    break;
+                case '5':
+                    usableCapacity = (effectiveDrives - 1) * driveCapacityTB;
+                    failureTolerance = 1;
+                    break;
+                case '6':
+                    usableCapacity = (effectiveDrives - 2) * driveCapacityTB;
+                    failureTolerance = 2;
+                    break;
+                case '10':
+                    usableCapacity = (effectiveDrives / 2) * driveCapacityTB;
+                    failureTolerance = 1;
+                    break;
+                default:
+                    usableCapacity = 0;
+                    failureTolerance = 0;
             }
-            
-            output.innerHTML = html;
-            
-            // Show summary
-            document.getElementById('pass-count').textContent = passCount;
-            document.getElementById('fail-count').textContent = failCount;
-            document.getElementById('total-count').textContent = passCount + failCount;
-            summary.style.display = 'block';
+
+            const rawCapacity = effectiveDrives * driveCapacityTB;
+            const efficiency = (usableCapacity / rawCapacity * 100).toFixed(2);
+
+            return {
+                raw: rawCapacity,
+                usable: usableCapacity,
+                efficiency: parseFloat(efficiency),
+                failureTolerance
+            };
         }
 
-        // Test functions
-        function testUnitConversions() {
-            logTest('=== 🔹 Unit Conversion Tests ===', true);
-            
-            // Test binary units
-            const oneTiB = unitConversions['TiB'];
-            const expected = new Decimal(1024).pow(4);
-            logTest('1 TiB = 1,099,511,627,776 bytes', 
-                oneTiB.equals(expected),
-                `Calculated: ${oneTiB.toString()} bytes`);
-            
-            // Test decimal units
-            const oneTB = unitConversions['TB'];
-            const expectedTB = new Decimal(1000).pow(4);
-            logTest('1 TB = 1,000,000,000,000 bytes', 
-                oneTB.equals(expectedTB),
-                `Calculated: ${oneTB.toString()} bytes`);
-            
-            // Test mixed unit aggregation
-            const twoTB = new Decimal(2).times(unitConversions['TB']);
-            const threeGiB = new Decimal(3).times(unitConversions['GiB']);
-            const total = twoTB.plus(threeGiB);
-            const totalTB = total.div(unitConversions['TB']);
-            logTest('2 TB + 3 GiB mixed aggregation',
-                totalTB.greaterThan(2) && totalTB.lessThan(2.1),
-                `Total: ${totalTB.toFixed(3)} TB (2.003 TB expected)`);
-        }
+        // Run Tests
+        console.log('Starting RAID Calculator Test Suite...');
 
-        function testRAIDLevel0() {
-            logTest('=== 🔹 RAID Level 0 Tests ===', true);
-            
-            const config = raidFormulas['0'];
-            const numDrives = 4;
-            const driveCapacityTB = 2;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            
-            logTest('RAID 0: 4 × 2TB drives = 8TB usable',
-                usableCapacity.equals(8),
-                `Raw: ${rawCapacity.toString()} TB, Usable: ${usableCapacity.toString()} TB, Efficiency: 100%`);
-            
-            logTest('RAID 0: Efficiency = 100%',
-                usableRatio.equals(1),
-                `Calculated efficiency: ${usableRatio.times(100).toString()}%`);
-            
-            logTest('RAID 0: Minimum 2 drives required',
-                config.minDrives === 2,
-                `Config requires: ${config.minDrives} drives`);
-        }
+        // Test Section 1: Unit Conversions
+        const section1 = document.createElement('div');
+        section1.className = 'test-section';
+        section1.innerHTML = '<h2>Test Section 1: Unit Conversions</h2>';
+        document.getElementById('test-results').appendChild(section1);
 
-        function testRAIDLevel1() {
-            logTest('=== 🔹 RAID Level 1 Tests ===', true);
-            
-            const config = raidFormulas['1'];
-            const numDrives = 2;
-            const driveCapacityTB = 4;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            
-            logTest('RAID 1: 2 × 4TB drives = 4TB usable',
-                usableCapacity.equals(4),
-                `Raw: ${rawCapacity.toString()} TB, Usable: ${usableCapacity.toString()} TB, Efficiency: 50%`);
-            
-            logTest('RAID 1: Efficiency = 50%',
-                usableRatio.equals(0.5),
-                `Calculated efficiency: ${usableRatio.times(100).toString()}%`);
-        }
+        // Test 1.1: TB to Bytes
+        const tb1 = convertToBytes(1, 'TB');
+        assert('1 TB to Bytes', tb1.equals(new Decimal('1000000000000')), '1000000000000', tb1.toString());
 
-        function testRAIDLevel5() {
-            logTest('=== 🔹 RAID Level 5 Tests ===', true);
-            
-            const config = raidFormulas['5'];
-            const numDrives = 4;
-            const driveCapacityTB = 2;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            
-            logTest('RAID 5: 4 × 2TB drives = 6TB usable',
-                usableCapacity.equals(6),
-                `Raw: ${rawCapacity.toString()} TB, Usable: ${usableCapacity.toString()} TB, Efficiency: 75%`);
-            
-            logTest('RAID 5: Efficiency = (n-1)/n',
-                usableRatio.equals(new Decimal(3).div(4)),
-                `For 4 drives: (4-1)/4 = ${usableRatio.toString()} = 75%`);
-            
-            logTest('RAID 5: Minimum 3 drives required',
-                config.minDrives === 3,
-                `Config requires: ${config.minDrives} drives`);
-        }
+        // Test 1.2: TiB to Bytes
+        const tib1 = convertToBytes(1, 'TiB');
+        assert('1 TiB to Bytes', tib1.equals(new Decimal('1099511627776')), '1099511627776', tib1.toString());
 
-        function testRAIDLevel6() {
-            logTest('=== 🔹 RAID Level 6 Tests ===', true);
-            
-            const config = raidFormulas['6'];
-            const numDrives = 6;
-            const driveCapacityTB = 3;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            
-            logTest('RAID 6: 6 × 3TB drives = 12TB usable',
-                usableCapacity.equals(12),
-                `Raw: ${rawCapacity.toString()} TB, Usable: ${usableCapacity.toString()} TB, Efficiency: 66.67%`);
-            
-            logTest('RAID 6: Efficiency = (n-2)/n',
-                usableRatio.equals(new Decimal(4).div(6)),
-                `For 6 drives: (6-2)/6 = ${usableRatio.toString()} = 66.67%`);
-            
-            logTest('RAID 6: Minimum 4 drives required',
-                config.minDrives === 4,
-                `Config requires: ${config.minDrives} drives`);
-        }
+        // Test 1.3: GB to MB
+        const gb10_bytes = convertToBytes(10, 'GB');
+        const gb10_mb = convertFromBytes(gb10_bytes, 'MB');
+        assert('10 GB to MB', gb10_mb === '10000.00', '10000.00', gb10_mb);
 
-        function testRAIDLevel10() {
-            logTest('=== 🔹 RAID Level 10 Tests ===', true);
-            
-            const config = raidFormulas['10'];
-            const numDrives = 4;
-            const driveCapacityTB = 2;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            
-            logTest('RAID 10: 4 × 2TB drives = 4TB usable',
-                usableCapacity.equals(4),
-                `Raw: ${rawCapacity.toString()} TB, Usable: ${usableCapacity.toString()} TB, Efficiency: 50%`);
-            
-            logTest('RAID 10: Efficiency = 50%',
-                usableRatio.equals(0.5),
-                `Calculated efficiency: ${usableRatio.times(100).toString()}%`);
-            
-            logTest('RAID 10: Minimum 4 drives required',
-                config.minDrives === 4,
-                `Config requires: ${config.minDrives} drives (2 mirrored pairs minimum)`);
-        }
+        // Test Section 2: RAID 0
+        const section2 = document.createElement('div');
+        section2.className = 'test-section';
+        section2.innerHTML = '<h2>Test Section 2: RAID 0 (Striping)</h2>';
+        document.getElementById('test-results').appendChild(section2);
 
-        function testRAIDLevel50() {
-            logTest('=== 🔹 RAID Level 50 Tests ===', true);
-            
-            const config = raidFormulas['50'];
-            const numDrives = 6;
-            const numGroups = 2;
-            const driveCapacityTB = 2;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives, numGroups);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            const drivesPerGroup = Math.floor(numDrives / numGroups);
-            
-            logTest('RAID 50: 6 drives (2 groups × 3 drives) = 8TB usable',
-                usableCapacity.equals(8),
-                `2 groups, ${drivesPerGroup} drives/group, efficiency: ${usableRatio.times(100).toFixed(1)}%`);
-            
-            logTest('RAID 50: Efficiency = (drives_per_group - 1) / drives_per_group',
-                usableRatio.equals(new Decimal(2).div(3)),
-                `For 3 drives/group: (3-1)/3 = ${usableRatio.toString()} = 66.67%`);
-            
-            logTest('RAID 50: Minimum 6 drives required',
-                config.minDrives === 6,
-                `Config requires: ${config.minDrives} drives minimum`);
-        }
+        const raid0_4x8 = calculateRAID('0', 4, 8);
+        assert('RAID 0: 4x8TB drives - Usable', raid0_4x8.usable === 32, '32 TB', `${raid0_4x8.usable} TB`);
+        assert('RAID 0: Efficiency', raid0_4x8.efficiency === 100, '100%', `${raid0_4x8.efficiency}%`);
+        assert('RAID 0: Failure Tolerance', raid0_4x8.failureTolerance === 0, '0 drives', `${raid0_4x8.failureTolerance} drives`);
 
-        function testRAIDLevel60() {
-            logTest('=== 🔹 RAID Level 60 Tests ===', true);
-            
-            const config = raidFormulas['60'];
-            const numDrives = 8;
-            const numGroups = 2;
-            const driveCapacityTB = 2;
-            const rawCapacity = new Decimal(numDrives).times(driveCapacityTB);
-            const usableRatio = config.usable(numDrives, numGroups);
-            const usableCapacity = rawCapacity.times(usableRatio);
-            const drivesPerGroup = Math.floor(numDrives / numGroups);
-            
-            logTest('RAID 60: 8 drives (2 groups × 4 drives) = 8TB usable',
-                usableCapacity.equals(8),
-                `2 groups, ${drivesPerGroup} drives/group, efficiency: ${usableRatio.times(100).toFixed(1)}%`);
-            
-            logTest('RAID 60: Efficiency = (drives_per_group - 2) / drives_per_group',
-                usableRatio.equals(new Decimal(2).div(4)),
-                `For 4 drives/group: (4-2)/4 = ${usableRatio.toString()} = 50%`);
-            
-            logTest('RAID 60: Minimum 8 drives required',
-                config.minDrives === 8,
-                `Config requires: ${config.minDrives} drives minimum`);
-        }
+        // Test Section 3: RAID 1
+        const section3 = document.createElement('div');
+        section3.className = 'test-section';
+        section3.innerHTML = '<h2>Test Section 3: RAID 1 (Mirroring)</h2>';
+        document.getElementById('test-results').appendChild(section3);
 
-        function testEdgeCases() {
-            logTest('=== 🔹 Edge Case Tests ===', true);
-            
-            // Test large numbers
-            const largeNum = new Decimal(1000);
-            const largePB = largeNum.times(unitConversions['PB']);
-            const largeEB = largePB.div(unitConversions['EB']);
-            logTest('Large number handling: 1000 PB = 1 EB',
-                largeEB.equals(1),
-                `Calculated: ${largeEB.toString()} EB`);
-            
-            // Test precision with small numbers
-            const smallNum = new Decimal(0.001);
-            const result = smallNum.times(unitConversions['TB']);
-            logTest('Small number precision: 0.001 TB preserved',
-                result.greaterThan(0),
-                `Calculated: ${result.toString()} bytes`);
-            
-            // Test RAID 5 with many drives
-            const manyDrives = 16;
-            const raid5Ratio = raidFormulas['5'].usable(manyDrives);
-            const expectedRatio = new Decimal(15).div(16);
-            logTest('RAID 5 with 16 drives: 93.75% efficiency',
-                raid5Ratio.equals(expectedRatio),
-                `Efficiency: ${raid5Ratio.times(100).toFixed(2)}%`);
-        }
+        const raid1_4x8 = calculateRAID('1', 4, 8);
+        assert('RAID 1: 4x8TB drives - Usable', raid1_4x8.usable === 16, '16 TB', `${raid1_4x8.usable} TB`);
+        assert('RAID 1: Efficiency', raid1_4x8.efficiency === 50, '50%', `${raid1_4x8.efficiency}%`);
+        assert('RAID 1: Failure Tolerance', raid1_4x8.failureTolerance === 1, '1 drive', `${raid1_4x8.failureTolerance} drive`);
 
-        function testStorageAggregation() {
-            logTest('=== 🔹 Storage Aggregation Tests ===', true);
-            
-            // Test: 1 TB + 500 GB + 256 GiB
-            const storage1 = new Decimal(1).times(unitConversions['TB']);
-            const storage2 = new Decimal(500).times(unitConversions['GB']);
-            const storage3 = new Decimal(256).times(unitConversions['GiB']);
-            const total = storage1.plus(storage2).plus(storage3);
-            const totalTB = total.div(unitConversions['TB']);
-            
-            logTest('Mixed units: 1 TB + 500 GB + 256 GiB aggregation',
-                totalTB.greaterThan(1.7) && totalTB.lessThan(1.8),
-                `Total: ${totalTB.toFixed(3)} TB (~1.775 TB expected)`);
-            
-            // Test: Multiple TiB units
-            const tib1 = new Decimal(10).times(unitConversions['TiB']);
-            const tib2 = new Decimal(5).times(unitConversions['TiB']);
-            const totalTiB = tib1.plus(tib2).div(unitConversions['TiB']);
-            logTest('Same units: 10 TiB + 5 TiB = 15 TiB',
-                totalTiB.equals(15),
-                `Total: ${totalTiB.toString()} TiB`);
-        }
+        // Test Section 4: RAID 5
+        const section4 = document.createElement('div');
+        section4.className = 'test-section';
+        section4.innerHTML = '<h2>Test Section 4: RAID 5 (Striping + Parity)</h2>';
+        document.getElementById('test-results').appendChild(section4);
 
-        // Run all tests
-        function runAllTests() {
-            console.log('Starting RAID Calculator Test Suite...');
-            
-            testUnitConversions();
-            testRAIDLevel0();
-            testRAIDLevel1();
-            testRAIDLevel5();
-            testRAIDLevel6();
-            testRAIDLevel10();
-            testRAIDLevel50();
-            testRAIDLevel60();
-            testEdgeCases();
-            testStorageAggregation();
-            
-            displayResults();
-            
-            console.log(`Tests complete: ${passCount} passed, ${failCount} failed`);
-        }
+        const raid5_5x8 = calculateRAID('5', 5, 8);
+        assert('RAID 5: 5x8TB drives - Usable', raid5_5x8.usable === 32, '32 TB', `${raid5_5x8.usable} TB`);
+        assert('RAID 5: Efficiency', raid5_5x8.efficiency === 80, '80%', `${raid5_5x8.efficiency}%`);
+        assert('RAID 5: Failure Tolerance', raid5_5x8.failureTolerance === 1, '1 drive', `${raid5_5x8.failureTolerance} drive`);
 
-        // Auto-run tests on page load
-        window.addEventListener('load', () => {
-            setTimeout(runAllTests, 500);
-        });
+        // Test Section 5: RAID 6
+        const section5 = document.createElement('div');
+        section5.className = 'test-section';
+        section5.innerHTML = '<h2>Test Section 5: RAID 6 (Striping + Dual Parity)</h2>';
+        document.getElementById('test-results').appendChild(section5);
+
+        const raid6_6x8 = calculateRAID('6', 6, 8);
+        assert('RAID 6: 6x8TB drives - Usable', raid6_6x8.usable === 32, '32 TB', `${raid6_6x8.usable} TB`);
+        assert('RAID 6: Efficiency', raid6_6x8.efficiency === 66.67, '66.67%', `${raid6_6x8.efficiency}%`);
+        assert('RAID 6: Failure Tolerance', raid6_6x8.failureTolerance === 2, '2 drives', `${raid6_6x8.failureTolerance} drives`);
+
+        // Test Section 6: RAID 10
+        const section6 = document.createElement('div');
+        section6.className = 'test-section';
+        section6.innerHTML = '<h2>Test Section 6: RAID 10 (Mirrored Stripes)</h2>';
+        document.getElementById('test-results').appendChild(section6);
+
+        const raid10_4x8 = calculateRAID('10', 4, 8);
+        assert('RAID 10: 4x8TB drives - Usable', raid10_4x8.usable === 16, '16 TB', `${raid10_4x8.usable} TB`);
+        assert('RAID 10: Efficiency', raid10_4x8.efficiency === 50, '50%', `${raid10_4x8.efficiency}%`);
+        assert('RAID 10: Failure Tolerance', raid10_4x8.failureTolerance === 1, '1 drive', `${raid10_4x8.failureTolerance} drive`);
+
+        // Test Section 7: Hot Spares
+        const section7 = document.createElement('div');
+        section7.className = 'test-section';
+        section7.innerHTML = '<h2>Test Section 7: Hot Spares</h2>';
+        document.getElementById('test-results').appendChild(section7);
+
+        const raid5_5x8_1spare = calculateRAID('5', 5, 8, 1);
+        assert('RAID 5 with 1 hot spare: Usable', raid5_5x8_1spare.usable === 24, '24 TB', `${raid5_5x8_1spare.usable} TB`);
+        assert('RAID 5 with 1 hot spare: Efficiency', raid5_5x8_1spare.efficiency === 75, '75%', `${raid5_5x8_1spare.efficiency}%`);
+
+        // Summary
+        const passCount = testResults.filter(r => r.passed).length;
+        const failCount = testResults.filter(r => !r.passed).length;
+        const totalCount = testResults.length;
+
+        document.getElementById('summary').innerHTML = `
+            <h2>Test Summary</h2>
+            <p style="font-size: 1.5em; margin: 10px 0;">
+                <span class="pass-count">${passCount} Passed</span> | 
+                <span class="fail-count">${failCount} Failed</span> | 
+                Total: ${totalCount}
+            </p>
+            <p>Success Rate: ${(passCount/totalCount*100).toFixed(1)}%</p>
+        `;
+
+        console.log(`Test Suite Complete: ${passCount}/${totalCount} passed`);
     </script>
 </body>
 </html>

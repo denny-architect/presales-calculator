@@ -1,40 +1,31 @@
 {
   "name": "presales-calculator",
-  "version": "2.5.2",
-  "description": "High-Precision Storage & Network Configuration Tool for Enterprise Pre-Sales Engineers",
+  "version": "2.5.3",
+  "description": "Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers - Erasure Coding, RAID, and Capacity Planning Calculator",
   "main": "index.html",
   "scripts": {
-    "start": "npx http-server -p 8080 -o",
-    "lighthouse": "lhci autorun",
-    "deploy": "echo 'Deploy via GitHub Actions'",
-    "version": "npm version"
+    "test": "echo \"Error: no test command specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/presales-calculator.git"
+    "url": "git+https://github.com/denny-architect/presales-calculator-public.git"
   },
   "keywords": [
-    "presales",
-    "storage-calculator",
-    "raid-calculator",
+    "storage",
+    "calculator",
     "erasure-coding",
-    "network-calculator",
-    "lacp",
-    "switch-configuration",
+    "raid",
     "capacity-planning",
-    "enterprise-tools",
-    "genspark-hackathon"
+    "presales",
+    "cleversafe",
+    "reed-solomon",
+    "object-storage",
+    "block-storage"
   ],
-  "author": "Denny <denny@example.com>",
+  "author": "Denny Kalaf <[email protected]>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/presales-calculator/issues"
+    "url": "https://github.com/denny-architect/presales-calculator-public/issues"
   },
-  "homepage": "https://YOUR_USERNAME.github.io/presales-calculator/",
-  "devDependencies": {
-    "@lhci/cli": "^0.13.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "homepage": "https://github.com/denny-architect/presales-calculator-public#readme"
 }

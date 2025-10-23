@@ -1,549 +1,235 @@
-# 🚀 Quick Start Guide - PreSales Calculator v2.5.2 (Open Source Edition)
+# 🚀 Quick Start Guide - PreSales Calculator v2.5.3 (Open Source Edition)
 
-Get up and running in **60 seconds** with the PreSales Calculator!
-
-> **Note:** This Open Source Edition includes the Cleversafe calculator. For additional vendors and enterprise features, see [Contact section](README.md#-contact).
+Welcome to the **PreSales Calculator** - your comprehensive tool for storage analysis across Block (RAID) and Object (Reed-Solomon EC) protocols.
 
 ---
 
-## 🎯 Choose Your Calculator
+## 📦 Installation
 
-PreSales Calculator v2.5.2 Open Source Edition offers:
+### **Option 1: Direct Download**
+1. Download the repository: https://github.com/denny-architect/presales-calculator-public
+2. Extract the ZIP file
+3. Open `index.html` in your browser
 
-1. **Block (RAID)** - Traditional RAID configurations (all 7 RAID levels)
-2. **Object (Reed-Solomon EC)** - Cleversafe erasure coding calculator
+### **Option 2: Git Clone**
+```bash
+git clone https://github.com/denny-architect/presales-calculator-public.git
+cd presales-calculator-public
+open index.html
+```
+
+**No build process, no dependencies, no npm install!** Just open and use.
 
 ---
 
-## 🏃 30-Second Start
+## 🎯 Using the Block (RAID) Calculator
 
-### **Step 1: Open the Calculator**
-1. Download or open `index.html`
-2. Double-click to open in your browser
-3. **That's it!** No installation, no server, no dependencies.
+### **1. Select Calculator Type**
+- Click the "Calculator Type" dropdown
+- Select **"Block (RAID)"**
 
-### **Step 2: Select Calculator Type**
-Click the **"Calculator Type"** dropdown at the top:
-- Select **"Block (RAID)"** for RAID calculations
-- Select **"Object (Reed-Solomon EC)"** for erasure coding
+### **2. Add Storage Units**
+- Click **"Add Storage Unit"** button
+- Enter capacity value (e.g., `8`)
+- Select unit (e.g., `TB`)
+- Add multiple units if needed
 
-### **Step 3: Start Calculating!**
-- Results update in real-time as you change values
-- Hover over ℹ️ icons for explanations
-- Scroll down to see educational content
+### **3. View Aggregated Capacity**
+- The "Total Raw Capacity" updates automatically
+- Change output unit dropdown to convert (TB, TiB, PB, etc.)
 
----
+### **4. Configure RAID**
+- Select RAID level (0, 1, 5, 6, 10)
+- Enter number of drives
+- Optionally add hot spare drives
 
-## 🧮 Block (RAID) Calculator
-
-### **Quick Example: RAID 6 with 8 Drives**
-
-**Step 1: Select Calculator**
-- Calculator Type → **Block (RAID)**
-
-**Step 2: Add Storage**
-- Click **"Add Storage Unit"**
-- Enter: **8** (quantity)
-- Select: **TB** (unit)
-- Default shows: **0.00 TB** aggregated
-
-**Step 3: Configure RAID**
-- Number of Drives: **8**
-- Drive Capacity: **4** TB
-- Drive Unit: **TB**
-- RAID Level: **RAID 6**
-
-**Step 4: View Results**
-```
-Raw Capacity: 32 TB (8 drives × 4 TB)
-Usable Capacity: 24 TB
-Efficiency: 75%
-Overhead: 8 TB (25%)
-Protection: Can lose 2 drives simultaneously
-```
+### **5. View Results**
+- Usable capacity calculation
+- Storage efficiency percentage
+- Failure tolerance analysis
 
 ---
 
-### **Storage Aggregation - Multiple Units**
+## 🌐 Using the Object (Reed-Solomon EC) Calculator
 
-**Example: Mixed Storage Units**
+### **1. Select Calculator Type**
+- Click "Calculator Type" dropdown
+- Select **"Object (Reed-Solomon EC)"**
 
-1. Click **"Add Storage Unit"** (3 times)
-2. Enter:
-   - Row 1: **2** × **TB**
-   - Row 2: **500** × **GB**
-   - Row 3: **256** × **GiB**
+### **2. Select Vendor**
+- A new "Vendor/Implementation" dropdown appears
+- Select **"Cleversafe"** (currently the only active option)
 
-3. **Result:**
-```
-Aggregated: ~2.775 TB
-```
+### **3. Choose EC Scheme**
 
-**Why?**
-- 2 TB = 2,000,000,000,000 bytes
-- 500 GB = 500,000,000,000 bytes
-- 256 GiB = 274,877,906,944 bytes
-- Total = ~2,774,877,906,944 bytes ≈ 2.775 TB
+#### **Quick Selection - Presets:**
+- **9/6** - Recommended for small/medium deployments
+- **14/10** - Balanced efficiency and protection
+- **16/11** - Higher efficiency for large deployments
 
----
+#### **Custom Configuration:**
+- Click **"Custom"** button
+- Set EC Width (total slices)
+- Set EC Threshold (minimum slices needed to read)
+- Set Write Threshold (slices written for durability)
+- System validates configuration automatically
 
-### **All RAID Levels Explained**
+### **4. Configure Storage**
+- **Drives per Node:** Number of drives in each storage node (default: 12)
+- **Drive Capacity:** Size of each drive in TB (default: 8 TB)
 
-#### **RAID 0 - Striping**
-```
-Example: 4 × 2 TB drives
-Raw: 8 TB
-Usable: 8 TB (100%)
-Protection: None - Any failure = data loss
-```
+### **5. Advanced: Annual Failure Rate (AFR)**
+- Expand the "Advanced Configuration" section
+- Adjust AFR percentage (default: 0.5% for enterprise drives)
+- Impacts durability and MTTDL calculations
 
-#### **RAID 1 - Mirroring**
-```
-Example: 2 × 4 TB drives
-Raw: 8 TB
-Usable: 4 TB (50%)
-Protection: Can lose 1 drive
-```
+### **6. Deployment Topology**
+- **Single Site:** All nodes in one location (⚠️ zero site failure tolerance)
+- **3-Site:** Nodes distributed across three geographic locations
 
-#### **RAID 5 - Single Parity**
-```
-Example: 4 × 2 TB drives
-Raw: 8 TB
-Usable: 6 TB (75%)
-Protection: Can lose 1 drive
-Formula: (n-1)/n
-```
+### **7. Calculate Results**
+Click the **"Calculate Results"** button to see:
 
-#### **RAID 6 - Dual Parity**
-```
-Example: 6 × 3 TB drives
-Raw: 18 TB
-Usable: 12 TB (66.7%)
-Protection: Can lose 2 drives simultaneously
-Formula: (n-2)/n
-```
+#### **Capacity Analysis:**
+- Raw Capacity (total physical storage)
+- Usable Capacity (after erasure coding overhead)
+- Storage Efficiency percentage
+- Expansion Factor (overhead multiplier)
 
-#### **RAID 10 - Mirrored Stripes**
-```
-Example: 4 × 2 TB drives
-Raw: 8 TB
-Usable: 4 TB (50%)
-Protection: Can lose 1 drive per mirrored pair
-```
+#### **Failure Tolerance:**
+- Storage Nodes (Read) - nodes that can fail while maintaining read access
+- Storage Nodes (Write) - nodes that can fail while maintaining write access
+- Site Failures - geographic sites that can fail
+- Concurrent Drives - drives that can fail simultaneously
 
-#### **RAID 50 - Striped RAID 5 Groups**
-```
-Example: 6 drives, 2 groups
-Raw: 6 × 2 TB = 12 TB
-Groups: 2 RAID 5 groups (3 drives each)
-Usable: 8 TB (66.7%)
-Protection: Can lose 1 drive per group
-```
+#### **Availability & Durability:**
+- Data Durability (nines - e.g., 15 nines = 99.999999999999999%)
+- MTTDL (Mean Time To Data Loss) in years
 
-#### **RAID 60 - Striped RAID 6 Groups**
-```
-Example: 8 drives, 2 groups
-Raw: 8 × 2 TB = 16 TB
-Groups: 2 RAID 6 groups (4 drives each)
-Usable: 8 TB (50%)
-Protection: Can lose 2 drives per group
-```
+#### **Performance Indicators:**
+- Write Amplification (network/storage overhead)
+- Rebuild Time Estimate (drive replacement time)
+- Network Overhead (percentage)
+
+#### **Educational Context:**
+- Explanation of your selected scheme
+- Strengths and weaknesses
+- Use case recommendations
 
 ---
 
-## 🌐 Object (Reed-Solomon EC) Calculator - Cleversafe
+## 💡 Tips & Best Practices
 
-### **Understanding the 9-6-7 Scheme**
+### **EC Scheme Selection**
 
-When you first open the Object calculator with Cleversafe selected, you'll see:
+**9/6 (3 parity slices):**
+- ✅ Good for: Small deployments (9-20 nodes)
+- ✅ Lower network overhead
+- ❌ Lower storage efficiency (~66%)
 
-```
-Scheme Display:
-     9    -    6    -    7
-   Width  Threshold  Write Threshold
-```
+**14/10 (4 parity slices):**
+- ✅ Good for: Medium deployments (14-30 nodes)
+- ✅ Balanced efficiency (~71%)
+- ✅ Better failure tolerance than 9/6
 
-**What This Means:**
-- **9 Storage Nodes** in your cluster
-- **6 nodes** minimum to READ data (can lose 3 nodes)
-- **7 nodes** minimum to WRITE data (can lose 2 nodes during write)
+**16/11 (5 parity slices):**
+- ✅ Good for: Large deployments (16+ nodes)
+- ✅ Higher storage efficiency (~69%)
+- ✅ Best for geographically distributed systems
 
----
+### **Site Topology**
 
-### **Quick Example: Default 9-6-7 Configuration**
+**Single Site:**
+- ⚠️ **WARNING:** Zero site failure tolerance
+- Use only for: Development, non-critical data, cost-sensitive deployments
+- Risk: Loss of datacenter = data unavailability
 
-**Step 1: Select Calculator**
-- Calculator Type → **Object (Reed-Solomon EC)**
+**3-Site:**
+- ✅ Survives 1 complete site failure
+- Recommended for: Production, critical data, DR requirements
+- Requires: Network connectivity between sites
 
-**Step 2: Select Vendor**
-- Vendor/Implementation → **Cleversafe**
+### **Drive Capacity Planning**
 
-**Step 3: Use Defaults (or customize)**
-
-**Default Configuration:**
-```
-Erasure Coding Scheme:
-├── Width: 9 (Total Storage Nodes)
-├── Threshold: 6 (Read minimum)
-└── Write Threshold: 7 (Write minimum)
-
-Storage Node Configuration:
-├── Drives per Node: 12
-├── Drive Capacity: 8 TB
-├── AFR: 0.5%
-└── Site Topology: Single Site
-```
-
-**Step 4: View Results**
-
-**Capacity Analysis:**
-```
-Raw Capacity: 864 TB (9 nodes × 12 drives × 8 TB)
-Usable Capacity: 576 TB
-Storage Efficiency: 66.7%
-Expansion Factor: 1.5×
-```
-
-**Failure Tolerance:**
-```
-Node Tolerance (Read): 3 nodes
-Node Tolerance (Write): 2 nodes
-Site Tolerance: None (single-site)
-Drive Tolerance: 36 drives
-```
-
-**Availability:**
-```
-Durability: 12 nines (99.9999999999%)
-MTTDL: ~1.85 Million years
-```
-
-**Performance:**
-```
-Write Amplification: 1.5×
-Rebuild Time: ~11.6 days
-Network Overhead: 50%
-```
-
----
-
-### **Try These Common Scenarios**
-
-#### **Scenario 1: Higher Protection (12-8-9)**
-
-**Goal:** More failure tolerance
-
-**Configuration:**
-```
-Width: 12
-Threshold: 8
-Write Threshold: 9
-Drives per Node: 12
-Drive Capacity: 8 TB
-```
-
-**Results:**
-```
-Raw: 1,152 TB
-Usable: 768 TB
-Efficiency: 66.7%
-Node Tolerance (Read): 4 nodes ← More protection!
-Durability: 13 nines
-```
-
----
-
-#### **Scenario 2: Higher Efficiency (8-6-7)**
-
-**Goal:** Less overhead, more usable capacity
-
-**Configuration:**
-```
-Width: 8
-Threshold: 6
-Write Threshold: 7
-Drives per Node: 12
-Drive Capacity: 8 TB
-```
-
-**Results:**
-```
-Raw: 768 TB
-Usable: 576 TB
-Efficiency: 75% ← Better efficiency!
-Node Tolerance (Read): 2 nodes ← Less protection
-Durability: 11 nines
-```
-
----
-
-#### **Scenario 3: 3-Site Configuration**
-
-**Goal:** Geographic redundancy
-
-**Configuration:**
-```
-Width: 9
-Threshold: 6
-Write Threshold: 7
-Site Topology: 3-Site
-```
-
-**Results:**
-```
-Site Tolerance: 1 site
-(Assumes 3 nodes per site: 9 nodes ÷ 3 sites)
-Can survive loss of entire datacenter
-```
-
----
-
-## 📚 Understanding Key Concepts
-
-### **Width vs Threshold vs Write Threshold**
-
-**Width (9):**
-- Total number of Storage Nodes
-- Data is sliced and distributed across ALL nodes
-- More nodes = more parallel access
-
-**Threshold (6):**
-- Minimum nodes needed to READ data
-- Can lose (Width - Threshold) nodes
-- Example: 9 - 6 = Can lose 3 nodes
-
-**Write Threshold (7):**
-- Minimum nodes needed to WRITE successfully
-- Always ≥ Threshold
-- Ensures data survives immediate failures after write
-
-**Why 7 > 6?**
-If we write to 7 nodes and immediately lose 1 node, we still have 6 nodes (≥ Threshold) to read the data.
-
----
-
-### **Storage Nodes vs Slices**
-
-**Common Misconception:**
-"Width = number of slices per object"
-
-**Reality:**
-- **Width = number of Storage Nodes**
-- Objects are split into **many slices**
-- Slices are distributed across **Width nodes**
-- Each node may hold multiple slices
-
-**Example:**
-- 100 MB object
-- Width = 9 nodes
-- Object split into ~1,000 slices
-- Each node gets ~111 slices
-
----
-
-### **Drives per Node - Why It Matters**
-
-**More Drives per Node:**
-- ✅ Higher capacity per node
-- ✅ More I/O parallelism
+**Larger drives (8TB+):**
+- ✅ Lower $/TB cost
 - ❌ Longer rebuild times
-- ❌ Larger failure domain
+- ❌ Higher impact of single drive failure
 
-**Example:**
-```
-Configuration A: 9 nodes × 12 drives = 108 drives
-Configuration B: 9 nodes × 60 drives = 540 drives
-
-Same Width (9), same Threshold (6)
-But Configuration B has:
-- 5× more capacity
-- 5× longer rebuild time
-```
+**Smaller drives (4TB or less):**
+- ✅ Faster rebuild times
+- ✅ Lower blast radius per drive
+- ❌ Higher $/TB cost
 
 ---
 
-## 🎓 Educational Features
+## 🔧 Troubleshooting
 
-### **Tooltips Everywhere**
-Hover over any ℹ️ icon to see:
-- What the parameter means
-- Why it matters
-- Example values
+### **Issue: Calculator doesn't load**
+- **Check:** Browser JavaScript is enabled
+- **Try:** Open in different browser (Chrome, Firefox, Safari, Edge)
 
-### **Step-by-Step Explanations**
-Every result shows:
-- The formula used
-- Why the number matters
-- What it means for your deployment
+### **Issue: Vendor dropdown doesn't appear**
+- **Solution:** Make sure "Object (Reed-Solomon EC)" is selected first
+- **Note:** Vendor dropdown only appears for Object storage
 
-### **Warning System**
-- 🔴 **Red warnings** for risks (RAID 0, single-site)
-- 🟡 **Yellow cautions** for suboptimal configs
-- 🟢 **Green highlights** for key metrics
+### **Issue: Invalid EC scheme error**
+- **Check:** EC Width ≥ EC Threshold
+- **Check:** Write Threshold ≥ EC Threshold
+- **Check:** Write Threshold ≤ EC Width
 
----
-
-## 🧪 Testing Your Knowledge
-
-### **Quick Quiz: RAID**
-
-**Question:** You have 10 × 4 TB drives. What's the usable capacity for RAID 5?
-
-<details>
-<summary>Click to reveal answer</summary>
-
-**Answer:** 36 TB
-
-**Calculation:**
-- Raw: 10 drives × 4 TB = 40 TB
-- RAID 5 formula: (n-1)/n = (10-1)/10 = 9/10 = 90%
-- Usable: 40 TB × 0.9 = 36 TB
-- Protection: Can lose 1 drive
-
-</details>
+### **Issue: Results seem incorrect**
+- **Verify:** Input values are realistic (drives per node, capacity, AFR)
+- **Check:** Output unit selection (TB vs TiB can differ by ~9%)
 
 ---
 
-### **Quick Quiz: Reed-Solomon EC**
+## 📚 Additional Resources
 
-**Question:** 12-8-9 scheme with 12 drives per node @ 8 TB. What's usable capacity?
+### **Understanding Erasure Coding**
+Erasure coding splits data into N slices and adds M parity slices:
+- **EC Width (N+M):** Total slices
+- **EC Threshold (N):** Minimum slices needed to reconstruct
+- **Parity (M):** Redundant slices for protection
 
-<details>
-<summary>Click to reveal answer</summary>
+**Example: 14/10**
+- Creates 14 total slices
+- Needs only 10 to read
+- Can lose 4 slices (drives/nodes/sites)
 
-**Answer:** 768 TB
-
-**Calculation:**
-- Raw: 12 nodes × 12 drives × 8 TB = 1,152 TB
-- Efficiency: 8/12 = 66.67%
-- Usable: 1,152 TB × 0.6667 = 768 TB
-- Node Tolerance: 12 - 8 = 4 nodes can fail
-
-</details>
-
----
-
-## 🔥 Pro Tips
-
-### **RAID Calculator**
-1. **Use storage aggregation** for mixed storage types
-2. **Test RAID 50/60** when you need nested redundancy
-3. **Compare efficiencies** side-by-side (manual calculations)
-4. **Remember:** RAID 10 = RAID 1+0 (mirrors first, then stripe)
-
-### **Object EC Calculator**
-1. **Start with 9-6-7** as your baseline (proven configuration)
-2. **Increase Width** for more parallelism, not just protection
-3. **3-Site topology** if disaster recovery is critical
-4. **Higher drive density** = longer rebuilds (consider carefully)
-5. **AFR matters** - Use vendor-specific values if available
+### **Understanding RAID**
+RAID combines multiple drives for performance and/or redundancy:
+- **RAID 0:** Striping (no redundancy, maximum capacity/performance)
+- **RAID 1:** Mirroring (50% capacity, survives 1 drive failure)
+- **RAID 5:** Striping + parity (N-1 capacity, survives 1 drive failure)
+- **RAID 6:** Striping + dual parity (N-2 capacity, survives 2 drive failures)
+- **RAID 10:** Mirrored stripes (50% capacity, better performance)
 
 ---
 
-## 🆘 Troubleshooting
+## 🤝 Getting Help
 
-### **RAID Calculator Issues**
+### **For Questions or Custom Calculators:**
+- 💼 LinkedIn: [linkedin.com/in/dennykalaf](https://linkedin.com/in/dennykalaf)
 
-**Problem:** "RAID 50 requires at least 6 drives"
-- **Solution:** Nested RAID needs minimum drives per group
-- RAID 50: 3 drives/group × 2 groups = 6 minimum
-- RAID 60: 4 drives/group × 2 groups = 8 minimum
-
-**Problem:** Storage aggregation shows 0.00 TB
-- **Solution:** Click "Add Storage Unit" and enter values
-- Units must be selected from dropdown
-- Supports decimal values (e.g., 2.5 TB)
+### **Report Issues:**
+- GitHub Issues: https://github.com/denny-architect/presales-calculator-public/issues
 
 ---
 
-### **Object EC Calculator Issues**
+## 🎓 About the Author
 
-**Problem:** "Write Threshold must be ≥ Threshold"
-- **Solution:** Write Threshold ≥ Read Threshold always
-- Example: If Threshold = 6, Write Threshold must be 6, 7, 8, or 9
-
-**Problem:** "Width must be ≥ Write Threshold"
-- **Solution:** Can't write to more nodes than you have
-- Example: If Width = 9, Write Threshold max = 9
+**Denny Kalaf** - Technology Architect & Storage Solutions Expert
+- 20+ years in storage architecture and distributed systems
+- Expertise: Erasure coding, RAID, capacity planning, object storage
+- Patent holder in dispersed storage networks
 
 ---
 
-## 📖 Next Steps
+**PreSales Calculator v2.5.3 - Open Source Edition**
 
-### **Learn More**
-- Read **README.md** for full technical details
-- Check **V2.5_BUILD_COMPLETE.md** for build summary
-- Review **CHANGELOG.md** for version history
-
-### **Advanced Topics**
-- MTTDL calculations explained
-- Rebuild time estimation formulas
-- Site topology best practices
-- Drive density optimization
-
-### **Get Help**
-- Check tooltips (ℹ️ icons) in the calculator
-- Review educational content sections
-- Contact: [Your LinkedIn] | [Your Email]
+**Note:** This Open Source Edition features Block (RAID) and Object (Cleversafe) calculators. Full private version with additional vendors (Scality, Qumulo, VAST) available on request.
 
 ---
-
-## 🎯 Common Use Cases
-
-### **For Customer Proposals**
-1. Open calculator
-2. Enter customer's drive configuration
-3. Compare RAID vs EC efficiency
-4. Screenshot results
-5. Add to proposal document
-
-### **For Sizing Meetings**
-1. Share screen with calculator open
-2. Live-adjust parameters with customer
-3. Show trade-offs (capacity vs protection)
-4. Export results (screenshot or notes)
-
-### **For Training**
-1. Start with default configurations
-2. Adjust one parameter at a time
-3. Observe result changes
-4. Read educational explanations
-5. Build intuition for storage math
-
----
-
-## ⚡ Keyboard Shortcuts
-
-- **Tab** - Move between inputs
-- **Arrow Up/Down** - Increment/decrement numbers
-- **Enter** - No action needed (auto-calculates)
-
----
-
-## 🎨 UI Tips
-
-### **Dark Theme**
-- Designed for extended use
-- Reduces eye strain
-- Professional appearance for customer demos
-
-### **Responsive Layout**
-- Desktop: Two-column layout
-- Mobile: Single-column (stacked)
-- Works on all screen sizes
-
-### **Color Coding**
-- 🔵 **Blue** - Interactive elements
-- 🟢 **Green** - Success/key metrics
-- 🔴 **Red** - Warnings/risks
-- 🟡 **Yellow** - Cautions
-
----
-
-**Ready to calculate? Open `index.html` and start exploring!** 🚀
-
----
-
-*Questions? Feedback? Contact [Your Name] via LinkedIn or email.*
 
 *Last Updated: October 2025*

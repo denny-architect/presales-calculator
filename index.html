@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreSales Calculator v2.5.2</title>
+    <title>PreSales Calculator v2.5.3</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
     <style>
@@ -11,6 +11,123 @@
            PRESALES CALCULATOR 2.5.2
            Multi-Calculator Platform
            ======================================== */
+
+        /* Contact Banner Styles */
+        .contact-banner {
+            max-width: 1200px;
+            margin: 60px auto 40px;
+            padding: 0 20px;
+        }
+
+        .contact-banner-content {
+            background: linear-gradient(135deg, var(--banner-gradient-start) 0%, var(--banner-gradient-end) 100%);
+            border: 1px solid var(--banner-border);
+            border-radius: 12px;
+            padding: 48px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-banner h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .banner-lead {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 0 0 16px 0;
+            line-height: 1.6;
+        }
+
+        .banner-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 0 0 24px 0;
+            line-height: 1.6;
+        }
+
+        .banner-subtitle strong {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .banner-cta-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0 0 24px 0;
+        }
+
+        .banner-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .banner-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .banner-btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .banner-btn-primary:hover {
+            background: #0353e9;
+            border-color: #0353e9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 98, 255, 0.3);
+        }
+
+        .banner-btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--banner-border);
+        }
+
+        .banner-btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-banner-content {
+                padding: 32px 24px;
+            }
+
+            .contact-banner h3 {
+                font-size: 1.5rem;
+            }
+
+            .banner-lead {
+                font-size: 1rem;
+            }
+
+            .banner-buttons {
+                flex-direction: column;
+            }
+
+            .banner-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
 
         :root {
             --bg-primary: #0a0a1a;
@@ -23,6 +140,9 @@
             --accent-red: #da1e28;
             --text-primary: #f4f4f4;
             --text-secondary: #c6c6c6;
+            --banner-gradient-start: rgba(102, 126, 234, 0.08);
+            --banner-gradient-end: rgba(118, 75, 162, 0.12);
+            --banner-border: rgba(102, 126, 234, 0.3);
             --text-muted: #8d8d8d;
             --border-subtle: rgba(141, 141, 141, 0.3);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -805,7 +925,7 @@
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-calculator"></i> PreSales Calculator</h1>
-                <div class="version">2.5.2</div>
+                <div class="version">2.5.3</div>
             </div>
             <p class="subtitle">Storage & Erasure Coding Analysis for Pre-Sales Engineers</p>
         </header>
@@ -1238,42 +1358,38 @@
             </div>
         </section>
 
-        <!-- Contact CTA Section -->
-        <div class="container mt-5 mb-4">
-            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                <div class="card-body text-center py-5">
-                    <h3 class="mb-3" style="font-weight: 700;">💼 Need More Vendor Support?</h3>
-                    <p class="lead mb-4" style="font-size: 1.1rem;">
-                        This Open Source Edition includes a Block (RAID) Unit Conversion & Object (Reed-Solomon-Cauchy) calculator. <br>
-                        <strong>Full private version</strong> under development, private Github access on request.
-                    </p>
-                    <p class="mb-4">Contact me custom calculators, or collaboration:</p>
-                    <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="https://linkedin.com/in/dennykalaf" target="_blank" class="btn btn-light btn-lg" style="font-weight: 600;">
-                            <i class="fab fa-linkedin"></i> Connect on LinkedIn
-                        </a>
-                        <a href="mailto:[email protected]" class="btn btn-outline-light btn-lg" style="font-weight: 600;">
-                            <i class="fas fa-envelope"></i> [email protected]
-                        </a>
-                    </div>
+        <!-- Contact CTA Section (Hidden by default) -->
+        <div id="contact-banner" class="contact-banner" style="display: none;">
+            <div class="contact-banner-content">
+                <h3>💼 Need More Vendor Support?</h3>
+                <p class="banner-lead">
+                    This Open Source Edition includes Block (RAID) Unit Conversion & Object (Reed-Solomon-Cauchy) calculators.
+                </p>
+                <p class="banner-subtitle">
+                    <strong>Full private version</strong> under development—featuring additional vendors and advanced analytics.
+                </p>
+                <div class="banner-buttons">
+                    <a href="https://linkedin.com/in/dennykalaf" target="_blank" class="banner-btn banner-btn-primary">
+                        <i class="fab fa-linkedin"></i> Connect on LinkedIn
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         <footer class="footer">
-            <p><strong>PreSales Calculator 2.5.2 - Open Source Edition</strong></p>
+            <p><strong>PreSales Calculator 2.5.3 - Open Source Edition</strong></p>
             <p class="footer-note">Built with ❤️ by <a href="https://linkedin.com/in/dennykalaf" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">Denny Kalaf</a> | Technology Architect | Storage Specialist</p>
         </footer>
     </div>
 
     <script>
         // ========================================
-        // PRESALES CALCULATOR 2.5.2
+        // PRESALES CALCULATOR 2.5.3
         // Multi-Calculator Platform
         // ========================================
 
-        console.log('PreSales Calculator 2.5.2 - Initializing...');
+        console.log('PreSales Calculator 2.5.3 - Initializing...');
 
         // Global state management
         const appState = {
@@ -1325,6 +1441,7 @@
         function handleCalculatorTypeChange() {
             const vendorGroup = document.getElementById('vendor-group');
             const calculatorType = appState.calculatorType;
+            const contactBanner = document.getElementById('contact-banner');
 
             // Hide all calculator sections
             document.querySelectorAll('.calculator-section').forEach(section => {
@@ -1334,6 +1451,11 @@
             // Reset vendor selection
             document.getElementById('vendor-select').value = '';
             appState.vendor = '';
+
+            // Show contact banner when calculator is selected
+            if (calculatorType) {
+                contactBanner.style.display = 'block';
+            }
 
             // Show/hide vendor dropdown based on calculator type
             if (calculatorType === 'reed-solomon') {
