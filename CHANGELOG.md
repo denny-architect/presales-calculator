@@ -15,7 +15,7 @@ Removed internal documentation and strategic references from public repository.
 
 ### Removed
 - 8 internal documentation files (session notes, build logs, guides)
-- Strategic vendor references from changelog and documentation
+- Vvendor references from changelog and documentation
 - Files removed: PRIVATE_VERSION_SNAPSHOT.md, PUBLIC_VERSION_READY.md, SESSION_START_GUIDE.md, NEW_SESSION_PROMPT.md, TONIGHT_SUMMARY.md, GIT_CHEAT_SHEET_DENNY.md, V2.5_BUILD_COMPLETE.md, PROGRESS_UPDATE.md
 
 ### Changed
@@ -86,10 +86,8 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
   - This CHANGELOG.md
 
 ### Changed
-- **Complete rebrand** from "IBM COS" to vendor-agnostic terminology
-  - "IBM COS Erasure Coding" → "Reed-Solomon Cauchy Erasure Coding"
-  - "SliceStor" → "Storage Node" (two words, vendor-agnostic)
-  - Removed all IBM branding and trademarks
+- **Complete rebrand** to vendor-agnostic terminology
+  - "Reed-Solomon Cauchy Erasure Coding"
 - **Navigation labels** for protocol-first consistency
   - "RAID Calculator" → "Block (RAID)"
   - "Reed-Solomon EC" → "Object (Reed-Solomon EC)"
@@ -164,13 +162,12 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 - Performance indicators (Write amplification, rebuild time, network overhead)
 - Educational content generation
 - Step-by-step calculation explanations
-- IBM COS specific implementation
 - Collapsible AFR (Annual Failure Rate) section
 - Real-time scheme display (9-6-7 visual)
 - Test scenarios and validation suite
 
 ### Technical Details
-- IBM Plex Sans typography
+- Sans typography
 - IBM-inspired color palette
 - Dark theme UI
 - Two-column responsive layout
@@ -242,7 +239,6 @@ Complete architectural rebuild from v2.1/v2.2 as a "start from scratch" clean im
 **Breaking Changes:**
 - File structure completely rebuilt
 - All v2.1/v2.2 specific documentation removed
-- IBM COS branding removed
 
 **What's Preserved:**
 - Reed-Solomon EC calculator functionality (Cleversafe)
