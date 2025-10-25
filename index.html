@@ -3,131 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreSales Calculator v2.5.3</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>PreSales Calculator v2.6</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
     <style>
         /* ========================================
-           PRESALES CALCULATOR 2.5.2
+           PRESALES CALCULATOR v2.6
            Multi-Calculator Platform
            ======================================== */
-
-        /* Contact Banner Styles */
-        .contact-banner {
-            max-width: 1200px;
-            margin: 60px auto 40px;
-            padding: 0 20px;
-        }
-
-        .contact-banner-content {
-            background: linear-gradient(135deg, var(--banner-gradient-start) 0%, var(--banner-gradient-end) 100%);
-            border: 1px solid var(--banner-border);
-            border-radius: 12px;
-            padding: 48px 40px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-banner h3 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 20px 0;
-            letter-spacing: -0.02em;
-        }
-
-        .banner-lead {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin: 0 0 16px 0;
-            line-height: 1.6;
-        }
-
-        .banner-subtitle {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin: 0 0 24px 0;
-            line-height: 1.6;
-        }
-
-        .banner-subtitle strong {
-            color: var(--accent-cyan);
-            font-weight: 600;
-        }
-
-        .banner-cta-text {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin: 0 0 24px 0;
-        }
-
-        .banner-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .banner-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            font-family: 'IBM Plex Sans', sans-serif;
-        }
-
-        .banner-btn-primary {
-            background: var(--accent-blue);
-            color: white;
-            border: 1px solid var(--accent-blue);
-        }
-
-        .banner-btn-primary:hover {
-            background: #0353e9;
-            border-color: #0353e9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 98, 255, 0.3);
-        }
-
-        .banner-btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--banner-border);
-        }
-
-        .banner-btn-secondary:hover {
-            background: rgba(102, 126, 234, 0.15);
-            border-color: rgba(102, 126, 234, 0.5);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .contact-banner-content {
-                padding: 32px 24px;
-            }
-
-            .contact-banner h3 {
-                font-size: 1.5rem;
-            }
-
-            .banner-lead {
-                font-size: 1rem;
-            }
-
-            .banner-buttons {
-                flex-direction: column;
-            }
-
-            .banner-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
 
         :root {
             --bg-primary: #0a0a1a;
@@ -708,6 +594,59 @@
             text-shadow: 0 0 15px rgba(36, 161, 72, 0.4);
         }
 
+        /* Topology Visualization Styles */
+        .topology-section {
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(0, 98, 255, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
+            border: 1px solid rgba(0, 98, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .topology-canvas-container {
+            width: 100%;
+            height: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .topology-canvas-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+            image-rendering: crisp-edges;
+        }
+
+        /* Custom scrollbar for RAID canvas container */
+        .topology-canvas-container::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .topology-canvas-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+
+        .topology-canvas-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 6px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .topology-canvas-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        /* Firefox scrollbar */
+        .topology-canvas-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-cyan) rgba(0, 0, 0, 0.3);
+        }
+
         /* Availability Grid */
         .availability-grid {
             display: grid;
@@ -917,6 +856,61 @@
         i.fa-graduation-cap::before { content: "🎓"; }
         i.fa-exclamation-triangle::before { content: "⚠️"; }
         i.fa-chevron-down::before { content: "▼"; }
+        i.fa-robot::before { content: "🤖"; }
+        i.fa-ring::before { content: "⭕"; }
+
+        /* RING Calculator Specific Styles */
+        .auto-calculated-field {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .auto-calculated-field i {
+            color: var(--accent-cyan);
+        }
+
+        .warning-box {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ff9800;
+        }
+
+        .warning-box i {
+            font-size: 1.2rem;
+        }
+
+        #ring-topology-canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .educational-content .info-box {
+            margin-bottom: 15px;
+        }
+
+        .educational-content h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .educational-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -925,7 +919,7 @@
         <header class="header">
             <div class="header-content">
                 <h1><i class="fas fa-calculator"></i> PreSales Calculator</h1>
-                <div class="version">2.5.3</div>
+                <div class="version">v2.6</div>
             </div>
             <p class="subtitle">Storage & Erasure Coding Analysis for Pre-Sales Engineers</p>
         </header>
@@ -956,6 +950,7 @@
                     <select id="vendor-select">
                         <option value="">Select Vendor...</option>
                         <option value="cleversafe">Cleversafe</option>
+                        <option value="scality-ring">Scality RING</option>
                     </select>
                 </div>
             </div>
@@ -1011,6 +1006,17 @@
             <!-- RAID Configuration Card -->
             <div class="input-panel">
                 <h2><i class="fas fa-hdd"></i> RAID Configuration</h2>
+                
+                <!-- RAID Drive Animation -->
+                <section class="config-section topology-section" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-server"></i> Drive Array Visualization</h3>
+                    <div class="topology-canvas-container" style="height: 320px; overflow-x: auto; overflow-y: hidden; position: relative; border: 1px solid rgba(0, 98, 255, 0.3); border-radius: 8px; background: rgba(10, 10, 26, 0.5);">
+                        <canvas id="raid-topology-canvas"></canvas>
+                    </div>
+                    <div id="raid-viz-error" style="display: none; margin-top: 10px; padding: 12px; background: rgba(255, 76, 96, 0.15); border: 1px solid #ff4c60; border-radius: 6px; color: #ff4c60; font-size: 0.9rem;">
+                        <i class="fas fa-exclamation-triangle"></i> <span id="raid-viz-error-message"></span>
+                    </div>
+                </section>
                 
                 <section class="config-section">
                     <h3>RAID Parameters</h3>
@@ -1119,6 +1125,14 @@
                 <!-- LEFT COLUMN: Input Parameters -->
                 <div class="input-panel">
                     <h2><i class="fas fa-sliders-h"></i> Configuration Parameters</h2>
+                    
+                    <!-- Topology Visualization -->
+                    <section class="config-section topology-section">
+                        <h3><i class="fas fa-project-diagram"></i> Topology Visualization</h3>
+                        <div class="topology-canvas-container">
+                            <canvas id="cleversafe-topology-canvas" width="600" height="350"></canvas>
+                        </div>
+                    </section>
                     
                     <!-- Erasure Coding Scheme -->
                     <section class="config-section">
@@ -1241,6 +1255,12 @@
                     <button class="calculate-btn" id="calculate-btn">
                         <i class="fas fa-calculator"></i> Calculate Results
                     </button>
+
+                    <!-- Educational Context (moved to left for balance) -->
+                    <section class="result-section educational" style="margin-top: 30px;">
+                        <h3><i class="fas fa-graduation-cap"></i> Understanding Your Configuration</h3>
+                        <div id="educational-content"></div>
+                    </section>
                 </div>
 
                 <!-- RIGHT COLUMN: Results & Analysis -->
@@ -1340,12 +1360,162 @@
                         </div>
                         <div class="result-explanation" id="performance-explanation"></div>
                     </section>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Educational Context -->
-                    <section class="result-section educational">
-                        <h3><i class="fas fa-graduation-cap"></i> Understanding Your Configuration</h3>
-                        <div id="educational-content"></div>
+        <!-- Scality RING Calculator Section -->
+        <section id="scality-ring-calculator" class="calculator-section">
+            <!-- Main Calculator Grid -->
+            <div class="calculator-grid">
+                
+                <!-- LEFT COLUMN: Input Parameters & Topology Canvas -->
+                <div class="input-panel">
+                    <h2><i class="fas fa-sliders-h"></i> Configuration Parameters</h2>
+                    
+                    <!-- RING Configuration -->
+                    <section class="config-section">
+                        <h3>RING Configuration</h3>
+                        
+                        <div class="input-group">
+                            <label for="ring-type">
+                                RING Type
+                                <span class="tooltip" data-tooltip="Determines erasure coding scheme and site distribution">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <select id="ring-type" onchange="updateRINGServerCounts()">
+                                <option value="mono-standard">Mono-Site Standard Durability</option>
+                                <option value="mono-stretched">Mono-Site Enhanced Durability</option>
+                                <option value="2-site-stretched">2-Site (Stretched) Enhanced Durability</option>
+                                <option value="3-site-stretched">3-Site (Stretched) Enhanced Durability</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="ring-server-count">
+                                Server Count
+                                <span class="tooltip" data-tooltip="Total number of RING Storage Servers">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <select id="ring-server-count" onchange="calculateRING()">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="hpe-model">
+                                HPE Alletra Model
+                                <span class="tooltip" data-tooltip="Server chassis determining drive bay count">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <select id="hpe-model" onchange="updateRINGDriveCapacities()">
+                                <option value="4120-24">Alletra 4120 24LFF</option>
+                                <option value="4120-48">Alletra 4120 48SFF</option>
+                                <option value="4140-60">Alletra 4140 60LFF</option>
+                                <option value="4140-84">Alletra 4140 84LFF</option>
+                                <option value="4210-18">Alletra 4210 18EDSFF</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="ring-drive-capacity">
+                                Drive Capacity (TB)
+                                <span class="tooltip" data-tooltip="Capacity of each individual drive">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </label>
+                            <select id="ring-drive-capacity" onchange="calculateRING()">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <!-- Auto-calculated Display -->
+                        <div class="auto-calculated-field" id="ring-total-drives-display" style="display: none;">
+                            <i class="fas fa-robot"></i>
+                            <span>Total Drives: <strong id="ring-total-drives">—</strong></span>
+                        </div>
                     </section>
+                    
+                    <!-- Topology Visualization Canvas -->
+                    <section class="config-section">
+                        <h3>Topology Visualization</h3>
+                        <canvas id="ring-topology-canvas" width="600" height="400" style="width: 100%; max-width: 600px; border: 1px solid rgba(0, 98, 255, 0.3); border-radius: 8px; background: #0a0e27;"></canvas>
+                    </section>
+                </div>
+                
+                <!-- RIGHT COLUMN: Results -->
+                <div class="output-panel" id="ring-results-panel" style="display: none;">
+                    <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+                    
+                    <!-- Scheme Visual Display -->
+                    <div class="scheme-display">
+                        <div class="scheme-visual">
+                            <span class="scheme-number" id="ring-visual-ec">—</span>
+                            <span class="scheme-separator">|</span>
+                            <span class="scheme-number" id="ring-visual-cos">—</span>
+                        </div>
+                        <div class="scheme-label">Erasure Coding | Replication</div>
+                    </div>
+                    
+                    <!-- Capacity Results -->
+                    <section class="config-section">
+                        <h3>Capacity Analysis</h3>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Raw Capacity</div>
+                                <div class="result-value" id="ring-raw-capacity">—</div>
+                            </div>
+                            <div class="result-item highlight">
+                                <div class="result-label">Usable Capacity</div>
+                                <div class="result-value" id="ring-usable-capacity">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Efficiency</div>
+                                <div class="result-value" id="ring-efficiency">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Overhead</div>
+                                <div class="result-value" id="ring-overhead">—</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Resiliency -->
+                    <section class="config-section">
+                        <h3>Data Resiliency</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="fas fa-code-branch"></i>
+                                <div class="info-label">EC Scheme</div>
+                                <div class="info-value" id="ring-ec-scheme">—</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clone"></i>
+                                <div class="info-label">Replication</div>
+                                <div class="info-value" id="ring-cos-policy">—</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-server"></i>
+                                <div class="info-label">Fault Tolerance</div>
+                                <div class="info-value" id="ring-fault-tolerance">—</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Educational Context -->
+                    <section class="config-section">
+                        <h3>Educational Context</h3>
+                        <div id="ring-educational-content" class="educational-content"></div>
+                    </section>
+                    
+                    <!-- Warning -->
+                    <div class="warning-box" id="ring-keyspace-warning" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="ring-keyspace-warning-text"></span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1354,31 +1524,14 @@
         <section id="file-smb-nfs-calculator" class="calculator-section">
             <div class="placeholder">
                 <h2><i class="fas fa-folder-open"></i> File Storage Calculator</h2>
-                <p>For SMB/NFS file storage systems<br><br>Available in private version</p>
+                <p>For SMB/NFS file storage systems<br><br>Coming Soon</p>
             </div>
         </section>
 
-        <!-- Contact CTA Section (Hidden by default) -->
-        <div id="contact-banner" class="contact-banner" style="display: none;">
-            <div class="contact-banner-content">
-                <h3>💼 Need More Vendor Support?</h3>
-                <p class="banner-lead">
-                    This Open Source Edition includes Block (RAID) Unit Conversion & Object (Reed-Solomon-Cauchy) calculators.
-                </p>
-                <p class="banner-subtitle">
-                    <strong>Full private version</strong> under development—featuring additional vendors and advanced analytics.
-                </p>
-                <div class="banner-buttons">
-                    <a href="https://linkedin.com/in/dennykalaf" target="_blank" class="banner-btn banner-btn-primary">
-                        <i class="fab fa-linkedin"></i> Connect on LinkedIn
-                    </a>
-                </div>
-            </div>
-        </div>
 
         <!-- Footer -->
         <footer class="footer">
-            <p><strong>PreSales Calculator 2.5.3 - Open Source Edition</strong></p>
+            <p><strong>PreSales Calculator v2.6 - Open Source Edition</strong></p>
             <p class="footer-note">Built with ❤️ by <a href="https://linkedin.com/in/dennykalaf" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">Denny Kalaf</a> | Technology Architect | Storage Specialist</p>
         </footer>
     </div>
@@ -1389,7 +1542,7 @@
         // Multi-Calculator Platform
         // ========================================
 
-        console.log('PreSales Calculator 2.5.3 - Initializing...');
+        console.log('PreSales Calculator v2.6 - Initializing...');
 
         // Global state management
         const appState = {
@@ -1441,7 +1594,6 @@
         function handleCalculatorTypeChange() {
             const vendorGroup = document.getElementById('vendor-group');
             const calculatorType = appState.calculatorType;
-            const contactBanner = document.getElementById('contact-banner');
 
             // Hide all calculator sections
             document.querySelectorAll('.calculator-section').forEach(section => {
@@ -1451,11 +1603,6 @@
             // Reset vendor selection
             document.getElementById('vendor-select').value = '';
             appState.vendor = '';
-
-            // Show contact banner when calculator is selected
-            if (calculatorType) {
-                contactBanner.style.display = 'block';
-            }
 
             // Show/hide vendor dropdown based on calculator type
             if (calculatorType === 'reed-solomon') {
@@ -1478,13 +1625,27 @@
         function handleVendorChange() {
             const vendor = appState.vendor;
             
+            // Hide all calculator sections first
+            document.querySelectorAll('.calculator-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
             if (vendor && appState.calculatorType === 'reed-solomon') {
-                // Show Reed-Solomon calculator
-                document.getElementById('reed-solomon-calculator').classList.add('active');
-                console.log(`Loaded Object (Reed-Solomon EC) Calculator - ${vendor}`);
-                
-                // Initialize calculations
-                calculateReedSolomonResults();
+                if (vendor === 'scality-ring') {
+                    // Show Scality RING calculator
+                    document.getElementById('scality-ring-calculator').classList.add('active');
+                    console.log(`Loaded Scality RING Calculator`);
+                    
+                    // Initialize RING calculator
+                    initializeRINGCalculator();
+                } else {
+                    // Show standard Reed-Solomon calculator (Cleversafe)
+                    document.getElementById('reed-solomon-calculator').classList.add('active');
+                    console.log(`Loaded Object (Reed-Solomon EC) Calculator - ${vendor}`);
+                    
+                    // Initialize calculations
+                    calculateReedSolomonResults();
+                }
             }
         }
 
@@ -1565,6 +1726,9 @@
             calculateAvailability();
             calculatePerformance();
             generateEducationalContent();
+            
+            // Draw topology visualization
+            drawCleversafeTopology();
             
             console.log('Calculation complete!');
         }
@@ -1891,6 +2055,18 @@
             const driveUnit = document.getElementById('raid-drive-unit').value;
             const raidLevel = document.getElementById('raid-level').value;
             const outputUnit = document.getElementById('output-unit').value;
+            
+            // Helper function to show error in visualization section
+            function showVizError(message) {
+                document.getElementById('raid-viz-error').style.display = 'block';
+                document.getElementById('raid-viz-error-message').textContent = message;
+            }
+            
+            // Helper function to clear error in visualization section
+            function clearVizError() {
+                document.getElementById('raid-viz-error').style.display = 'none';
+                document.getElementById('raid-viz-error-message').textContent = '';
+            }
 
             if (!numDrives || !driveCapacity || numDrives < 1 || driveCapacity <= 0) {
                 document.getElementById('raid-raw-capacity').textContent = '—';
@@ -1899,6 +2075,7 @@
                 document.getElementById('raid-overhead').textContent = '—';
                 document.getElementById('raid-explanation').innerHTML = '<em>Enter valid drive configuration</em>';
                 document.getElementById('raid-protection-info').innerHTML = '';
+                clearVizError();
                 return;
             }
 
@@ -1906,10 +2083,15 @@
             
             // Check minimum drives
             if (numDrives < raidConfig.minDrives) {
+                const errorMsg = `${raidConfig.name} requires minimum ${raidConfig.minDrives} drives. You have ${numDrives} drives.`;
                 document.getElementById('raid-explanation').innerHTML = 
-                    `<strong style="color: var(--accent-red);">Error:</strong> ${raidConfig.name} requires minimum ${raidConfig.minDrives} drives. You have ${numDrives} drives.`;
+                    `<strong style="color: var(--accent-red);">Error:</strong> ${errorMsg}`;
+                showVizError(errorMsg);
                 return;
             }
+            
+            // Clear any previous errors if validation passes
+            clearVizError();
 
             // Calculate raw capacity
             const driveUnitBytes = unitConversions[driveUnit];
@@ -1922,14 +2104,18 @@
                 const minGroups = raidConfig.minGroups;
                 
                 if (numGroups < minGroups) {
+                    const errorMsg = `${raidConfig.name} requires minimum ${minGroups} RAID groups.`;
                     document.getElementById('raid-explanation').innerHTML = 
-                        `<strong style="color: var(--accent-red);">Error:</strong> ${raidConfig.name} requires minimum ${minGroups} RAID groups.`;
+                        `<strong style="color: var(--accent-red);">Error:</strong> ${errorMsg}`;
+                    showVizError(errorMsg);
                     return;
                 }
                 
                 if (numDrives % numGroups !== 0) {
+                    const errorMsg = `Number of drives (${numDrives}) must be evenly divisible by number of groups (${numGroups}).`;
                     document.getElementById('raid-explanation').innerHTML = 
-                        `<strong style="color: var(--accent-red);">Error:</strong> Number of drives must be evenly divisible by number of groups.`;
+                        `<strong style="color: var(--accent-red);">Error:</strong> ${errorMsg}`;
+                    showVizError(errorMsg);
                     return;
                 }
                 
@@ -1984,6 +2170,210 @@
             }
             
             document.getElementById('raid-protection-info').innerHTML = protectionHTML;
+            
+            // Draw RAID visualization
+            drawRAIDVisualization(raidLevel, numDrives);
+        }
+
+        // RAID Drive Animation
+        let raidAnimationFrame = null;
+
+        function drawRAIDVisualization(raidLevel, numDrives) {
+            const canvas = document.getElementById('raid-topology-canvas');
+            if (!canvas) return;
+            
+            // Stop any existing animation
+            if (raidAnimationFrame) {
+                cancelAnimationFrame(raidAnimationFrame);
+                raidAnimationFrame = null;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            const driveWidth = 50;
+            const driveHeight = 60;
+            const spacing = 15;
+            const drivesPerRow = Math.min(numDrives, 12);
+            const rows = Math.ceil(numDrives / drivesPerRow);
+            
+            // Calculate required canvas dimensions
+            const marginX = 60;
+            const marginY = 50;
+            const legendHeight = 40;
+            const canvasWidth = Math.max(800, drivesPerRow * (driveWidth + spacing) + marginX * 2);
+            const canvasHeight = marginY + rows * (driveHeight + spacing) + legendHeight + 20;
+            
+            // Set canvas dimensions
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
+            const startX = marginX;
+            const startY = marginY;
+            
+            // Get number of RAID groups for RAID 50/60
+            let numGroups = 2;
+            if (raidLevel === '50' || raidLevel === '60') {
+                const groupInput = document.getElementById('raid-num-groups');
+                if (groupInput) {
+                    numGroups = parseInt(groupInput.value) || 2;
+                }
+            }
+            
+            // Determine drive colors based on RAID level
+            function getDriveColor(index) {
+                if (raidLevel === '0') return '#00d4ff'; // All data (cyan)
+                if (raidLevel === '1' || raidLevel === '10') {
+                    return index % 2 === 0 ? '#24a148' : '#ff832b'; // Mirror pairs
+                }
+                if (raidLevel === '5') {
+                    return index === numDrives - 1 ? '#ff832b' : '#24a148'; // Last drive parity
+                }
+                if (raidLevel === '6') {
+                    return index >= numDrives - 2 ? '#ff832b' : '#24a148'; // Last 2 drives parity
+                }
+                if (raidLevel === '50' || raidLevel === '60') {
+                    // Calculate drives per group
+                    const drivesPerGroup = Math.floor(numDrives / numGroups);
+                    const parityDrivesPerGroup = raidLevel === '50' ? 1 : 2;
+                    const groupIndex = Math.floor(index / drivesPerGroup);
+                    const indexInGroup = index % drivesPerGroup;
+                    
+                    // Last 1 or 2 drives in each group are parity
+                    if (indexInGroup >= drivesPerGroup - parityDrivesPerGroup) {
+                        return '#ff832b'; // Parity
+                    }
+                    return '#24a148'; // Data
+                }
+                return '#24a148';
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const time = Date.now();
+                
+                // Title
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                const raidNames = {
+                    '0': 'RAID 0 - Striping',
+                    '1': 'RAID 1 - Mirroring',
+                    '5': 'RAID 5 - Single Parity',
+                    '6': 'RAID 6 - Double Parity',
+                    '10': 'RAID 10 - Mirrored Stripes',
+                    '50': 'RAID 50 - Striped RAID 5',
+                    '60': 'RAID 60 - Striped RAID 6'
+                };
+                ctx.fillText(raidNames[raidLevel] || `RAID ${raidLevel}`, canvas.width / 2, 25);
+                
+                // Draw drives
+                for (let i = 0; i < numDrives; i++) {
+                    const row = Math.floor(i / drivesPerRow);
+                    const col = i % drivesPerRow;
+                    const x = startX + col * (driveWidth + spacing);
+                    const y = startY + row * (driveHeight + spacing);
+                    
+                    // Pulsing effect
+                    const pulsePhase = (time / 1000 + i * 0.2) % 2;
+                    const pulse = pulsePhase < 1 ? pulsePhase : 2 - pulsePhase;
+                    const alpha = 0.6 + pulse * 0.4;
+                    
+                    const color = getDriveColor(i);
+                    const rgb = color.match(/\w\w/g).map(x => parseInt(x, 16));
+                    
+                    // Drive body
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+                    ctx.fillRect(x, y, driveWidth, driveHeight);
+                    
+                    // Drive border
+                    ctx.strokeStyle = '#0062ff';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, driveWidth, driveHeight);
+                    
+                    // Drive details (platters)
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.lineWidth = 1;
+                    for (let p = 0; p < 3; p++) {
+                        ctx.beginPath();
+                        ctx.arc(x + driveWidth/2, y + 20 + p * 12, 15, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    
+                    // Drive number
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 12px IBM Plex Sans';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`${i + 1}`, x + driveWidth/2, y + driveHeight - 8);
+                }
+                
+                // Draw RAID 50/60 group separators
+                if (raidLevel === '50' || raidLevel === '60') {
+                    const drivesPerGroup = Math.floor(numDrives / numGroups);
+                    ctx.strokeStyle = 'rgba(0, 98, 255, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    
+                    for (let g = 1; g < numGroups; g++) {
+                        const separatorDrive = g * drivesPerGroup;
+                        const row = Math.floor(separatorDrive / drivesPerRow);
+                        const col = separatorDrive % drivesPerRow;
+                        
+                        if (col === 0) {
+                            // Separator is at start of new row - draw horizontal line above
+                            const y = startY + row * (driveHeight + spacing) - spacing / 2;
+                            ctx.beginPath();
+                            ctx.moveTo(startX - 10, y);
+                            ctx.lineTo(startX + drivesPerRow * (driveWidth + spacing) - spacing + 10, y);
+                            ctx.stroke();
+                        } else {
+                            // Separator is mid-row - draw vertical line
+                            const x = startX + col * (driveWidth + spacing) - spacing / 2;
+                            const y1 = startY + row * (driveHeight + spacing) - 10;
+                            const y2 = startY + row * (driveHeight + spacing) + driveHeight + 10;
+                            ctx.beginPath();
+                            ctx.moveTo(x, y1);
+                            ctx.lineTo(x, y2);
+                            ctx.stroke();
+                        }
+                    }
+                    
+                    ctx.setLineDash([]); // Reset line dash
+                    
+                    // Add group labels
+                    ctx.font = '11px IBM Plex Sans';
+                    ctx.fillStyle = '#00d4ff';
+                    ctx.textAlign = 'center';
+                    for (let g = 0; g < numGroups; g++) {
+                        const firstDrive = g * drivesPerGroup;
+                        const row = Math.floor(firstDrive / drivesPerRow);
+                        const col = firstDrive % drivesPerRow;
+                        const x = startX + col * (driveWidth + spacing) + driveWidth / 2;
+                        const y = startY + row * (driveHeight + spacing) - 5;
+                        ctx.fillText(`Group ${g + 1}`, x, y);
+                    }
+                }
+                
+                // Legend
+                ctx.font = '12px IBM Plex Sans';
+                ctx.textAlign = 'left';
+                const legendY = startY + rows * (driveHeight + spacing) + 15;
+                
+                ctx.fillStyle = '#24a148';
+                ctx.fillRect(marginX, legendY, 15, 15);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('Data Drives', marginX + 22, legendY + 11);
+                
+                if (raidLevel !== '0') {
+                    ctx.fillStyle = '#ff832b';
+                    ctx.fillRect(marginX + 130, legendY, 15, 15);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(raidLevel === '1' || raidLevel === '10' ? 'Mirror Drives' : 'Parity Drives', marginX + 152, legendY + 11);
+                }
+                
+                raidAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
         }
 
         // Initialize RAID calculator with one storage row
@@ -1995,7 +2385,750 @@
             calculateRAID();
         }
 
-        console.log('PreSales Calculator 2.5.2 - Scripts loaded successfully!');
+        // ========================================
+        // SCALITY RING CALCULATOR
+        // ========================================
+        
+        const hpeModels = {
+            '4120-24': { name: 'Alletra 4120 24LFF', drives: 20, capacities: [10, 12, 18, 22] },
+            '4120-48': { name: 'Alletra 4120 48SFF', drives: 44, capacities: [2, 4, 8] },
+            '4140-60': { name: 'Alletra 4140 60LFF', drives: 56, capacities: [10, 12, 18, 22] },
+            '4140-84': { name: 'Alletra 4140 84LFF', drives: 80, capacities: [10, 12, 18, 22] },
+            '4210-18': { name: 'Alletra 4210 18EDSFF', drives: 15, capacities: [15, 31] }
+        };
+
+        const ringTypes = {
+            'mono-standard': {
+                name: 'Mono-Site Standard Durability',
+                serverCounts: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51],
+                getScheme: function(servers) {
+                    const overhead = servers === 3 ? 78.3 : 41.3;
+                    return {
+                        ec: servers === 3 ? 'ARC7+5' : 'ARC9+3',
+                        cos: 'COS3',
+                        overhead: overhead,
+                        efficiency: 1 / (1 + overhead / 100),
+                        tolerance: servers === 3 ? '0 servers' : (servers < 12 ? '1 server' : '3 servers')
+                    };
+                }
+            },
+            'mono-stretched': {
+                name: 'Mono-Site Enhanced Durability',
+                serverCounts: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51],
+                getScheme: function(servers) {
+                    const overhead = servers === 3 ? 78.3 : 41.3;
+                    return {
+                        ec: servers === 3 ? 'ARC7+5' : 'ARC9+3',
+                        cos: 'COS3',
+                        overhead: overhead,
+                        efficiency: 1 / (1 + overhead / 100),
+                        tolerance: servers === 3 ? '0 servers' : (servers < 12 ? '1 server' : '3 servers')
+                    };
+                }
+            },
+            '2-site-stretched': {
+                name: '2-Site (Stretched) Enhanced Durability',
+                serverCounts: [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50],
+                getScheme: function(servers) {
+                    const overhead = 33.3;
+                    return {
+                        ec: 'ARC8+4',
+                        cos: 'COS3',
+                        overhead: overhead,
+                        efficiency: 1 / (1 + overhead / 100),
+                        tolerance: servers < 12 ? '1 site' : '1 site and 1 server'
+                    };
+                }
+            },
+            '3-site-stretched': {
+                name: '3-Site (Stretched) Enhanced Durability',
+                serverCounts: [12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51],
+                getScheme: function(servers) {
+                    const overhead = 20.0;
+                    return {
+                        ec: 'ARC5+7',
+                        cos: 'COS2',
+                        overhead: overhead,
+                        efficiency: 1 / (1 + overhead / 100),
+                        tolerance: servers < 12 ? '1 site' : '1 site and 1 server'
+                    };
+                }
+            }
+        };
+
+        function updateRINGServerCounts() {
+            const ringType = document.getElementById('ring-type').value;
+            const serverDropdown = document.getElementById('ring-server-count');
+            const serverCounts = ringTypes[ringType].serverCounts;
+            
+            serverDropdown.innerHTML = '';
+            serverCounts.forEach(count => {
+                const option = document.createElement('option');
+                option.value = count;
+                option.textContent = count + ' servers';
+                serverDropdown.appendChild(option);
+            });
+
+            calculateRING();
+        }
+
+        function updateRINGDriveCapacities() {
+            const modelKey = document.getElementById('hpe-model').value;
+            const model = hpeModels[modelKey];
+            const capacityDropdown = document.getElementById('ring-drive-capacity');
+            
+            capacityDropdown.innerHTML = '';
+            model.capacities.forEach(capacity => {
+                const option = document.createElement('option');
+                option.value = capacity;
+                option.textContent = capacity + ' TB';
+                capacityDropdown.appendChild(option);
+            });
+
+            calculateRING();
+        }
+
+        function calculateRING() {
+            const ringType = document.getElementById('ring-type').value;
+            const servers = parseInt(document.getElementById('ring-server-count').value);
+            const modelKey = document.getElementById('hpe-model').value;
+            const driveCapacity = parseFloat(document.getElementById('ring-drive-capacity').value);
+            
+            if (!servers || !driveCapacity) return;
+            
+            const model = hpeModels[modelKey];
+            const scheme = ringTypes[ringType].getScheme(servers);
+            
+            // Calculate capacities
+            const totalDrives = servers * model.drives;
+            const rawCapacityTB = totalDrives * driveCapacity;
+            const usableCapacityTB = Math.floor(rawCapacityTB * scheme.efficiency);
+            
+            // Update displays
+            document.getElementById('ring-total-drives').textContent = totalDrives.toLocaleString();
+            document.getElementById('ring-total-drives-display').style.display = 'flex';
+            
+            document.getElementById('ring-visual-ec').textContent = scheme.ec;
+            document.getElementById('ring-visual-cos').textContent = scheme.cos;
+            
+            document.getElementById('ring-raw-capacity').textContent = `${rawCapacityTB.toLocaleString()} TB`;
+            document.getElementById('ring-usable-capacity').textContent = `${usableCapacityTB.toLocaleString()} TB`;
+            document.getElementById('ring-efficiency').textContent = `${(scheme.efficiency * 100).toFixed(1)}%`;
+            document.getElementById('ring-overhead').textContent = `${scheme.overhead.toFixed(1)}%`;
+            
+            document.getElementById('ring-ec-scheme').textContent = scheme.ec;
+            document.getElementById('ring-cos-policy').textContent = scheme.cos;
+            document.getElementById('ring-fault-tolerance').textContent = scheme.tolerance;
+            
+            // Educational content
+            const eduContent = generateRINGEducationalContent(ringType, scheme);
+            document.getElementById('ring-educational-content').innerHTML = eduContent;
+            
+            // Keyspace warning
+            const warning = checkRINGKeyspaceWarning(ringType, servers);
+            if (warning) {
+                document.getElementById('ring-keyspace-warning-text').textContent = warning;
+                document.getElementById('ring-keyspace-warning').style.display = 'flex';
+            } else {
+                document.getElementById('ring-keyspace-warning').style.display = 'none';
+            }
+            
+            // Draw topology
+            drawRINGTopology(ringType, servers, scheme.cos);
+            
+            // Show results
+            document.getElementById('ring-results-panel').style.display = 'block';
+        }
+
+        function generateRINGEducationalContent(ringType, scheme) {
+            let content = `
+                <div class="info-box">
+                    <h4>${scheme.ec} Erasure Coding</h4>
+                    <p>${getRINGSchemeExplanation(scheme.ec)}</p>
+                </div>
+                <div class="info-box">
+                    <h4>${scheme.cos} Replication Policy</h4>
+                    <p>3% of data is replicated ${scheme.cos === 'COS3' ? '3 times' : '2 times'} for metadata and small objects.</p>
+                </div>
+            `;
+            return content;
+        }
+
+        function getRINGSchemeExplanation(scheme) {
+            const explanations = {
+                'ARC7+5': 'Data split into 7+5 fragments. Can lose any 5 fragments.',
+                'ARC9+3': 'Data split into 9+3 fragments. Can lose any 3 fragments. High efficiency.',
+                'ARC8+4': 'Data split into 8+4 fragments. Can lose any 4 fragments. Balanced.',
+                'ARC5+7': 'Data split into 5+7 fragments. Can lose any 7 fragments. Optimized for 3-site.'
+            };
+            return explanations[scheme] || 'Erasure coding for data protection.';
+        }
+
+        function checkRINGKeyspaceWarning(ringType, servers) {
+            const warningTypes = ['mono-standard', '3-site-stretched'];
+            if (warningTypes.includes(ringType) && servers >= 12) {
+                const totalKeyspaces = servers * 6;
+                if (totalKeyspaces % 12 !== 0) {
+                    return `Keyspace alignment warning: ${servers} servers × 6 keyspaces not divisible by 12`;
+                }
+            }
+            return null;
+        }
+
+        let ringAnimationFrame = null;
+        let ringParticles = [];
+
+        function drawRINGTopology(ringType, servers, cosType) {
+            const canvas = document.getElementById('ring-topology-canvas');
+            if (!canvas) return;
+            
+            // Stop any existing animation
+            if (ringAnimationFrame) {
+                cancelAnimationFrame(ringAnimationFrame);
+                ringAnimationFrame = null;
+            }
+            
+            ringParticles = [];
+            const ctx = canvas.getContext('2d');
+            
+            if (ringType.includes('mono')) {
+                drawMonoSiteRING(ctx, servers, cosType);
+            } else if (ringType === '2-site-stretched') {
+                drawTwoSiteRING(ctx, servers, cosType);
+            } else if (ringType === '3-site-stretched') {
+                drawThreeSiteRING(ctx, servers, cosType);
+            }
+        }
+
+        function drawMonoSiteRING(ctx, servers, cosType) {
+            // Create particles
+            const particleCount = 25;
+            for (let i = 0; i < particleCount; i++) {
+                ringParticles.push({
+                    x: 150 + Math.random() * 300,
+                    y: 150 + Math.random() * 100,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: 4 + Math.random() * 3,
+                    opacity: 0.6 + Math.random() * 0.4,
+                    bounds: { minX: 150, maxX: 450, minY: 150, maxY: 250 }
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, 600, 400);
+                
+                // Draw site box
+                ctx.strokeStyle = '#0062ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(150, 150, 300, 100);
+                
+                // Draw particles
+                ringParticles.forEach((p, index) => {
+                    // Update position
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    
+                    // Bounce off bounds
+                    if (p.x < p.bounds.minX || p.x > p.bounds.maxX) p.vx *= -1;
+                    if (p.y < p.bounds.minY || p.y > p.bounds.maxY) p.vy *= -1;
+                    
+                    // Pulsing
+                    p.opacity = 0.4 + Math.sin(Date.now() / 500 + index * 0.5) * 0.4;
+                    const pulseSize = p.size * (1 + Math.sin(Date.now() / 400 + index * 0.3) * 0.3);
+                    
+                    // Outer glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, pulseSize * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity * 0.3})`;
+                    ctx.fill();
+                    
+                    // Inner particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
+                    ctx.fill();
+                });
+                
+                // Labels
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText('Single Site', 300, 135);
+                ctx.fillText(`${servers} Servers`, 300, 205);
+                ctx.fillText(`${cosType}`, 300, 230);
+                
+                ringAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        function drawTwoSiteRING(ctx, servers, cosType) {
+            const x1 = 150, y1 = 200;
+            const x2 = 450, y2 = 200;
+            
+            function animate() {
+                ctx.clearRect(0, 0, 600, 400);
+                
+                const time = Date.now();
+                const cycle = time % 3000;
+                
+                // Ricochet back and forth
+                let progress;
+                if (cycle < 1500) {
+                    progress = cycle / 1500;
+                } else {
+                    progress = 1 - (cycle - 1500) / 1500;
+                }
+                
+                const x = x1 + (x2 - x1) * progress;
+                const y = y1 + (y2 - y1) * progress;
+                
+                // Draw sites
+                ctx.strokeStyle = '#0062ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(50, 150, 200, 100);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText('Site A', 150, 135);
+                ctx.font = '14px IBM Plex Sans';
+                ctx.fillText(`${Math.floor(servers/2)} Servers`, 150, 205);
+                
+                ctx.strokeStyle = '#24a148';
+                ctx.strokeRect(350, 150, 200, 100);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.fillText('Site B', 450, 135);
+                ctx.font = '14px IBM Plex Sans';
+                ctx.fillText(`${Math.floor(servers/2)} Servers`, 450, 205);
+                
+                // Connection line
+                ctx.strokeStyle = '#00d4ff';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(250, 200);
+                ctx.lineTo(350, 200);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // Pulsing orb
+                const pulseSize = 10 + Math.sin(time / 200) * 3;
+                
+                // Outer glow
+                ctx.beginPath();
+                ctx.arc(x, y, pulseSize * 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 212, 255, 0.3)';
+                ctx.fill();
+                
+                // Inner orb
+                ctx.beginPath();
+                ctx.arc(x, y, pulseSize, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 212, 255, 0.9)';
+                ctx.fill();
+                
+                // Trail effect
+                for (let i = 1; i <= 3; i++) {
+                    let trailProgress;
+                    if (cycle < 1500) {
+                        trailProgress = progress - (i * 0.05);
+                    } else {
+                        trailProgress = progress + (i * 0.05);
+                    }
+                    
+                    if (trailProgress > 0 && trailProgress < 1) {
+                        const trailX = x1 + (x2 - x1) * trailProgress;
+                        const trailY = y1 + (y2 - y1) * trailProgress;
+                        ctx.beginPath();
+                        ctx.arc(trailX, trailY, pulseSize * 0.6, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(0, 212, 255, ${0.3 - i * 0.1})`;
+                        ctx.fill();
+                    }
+                }
+                
+                // COS label
+                ctx.fillStyle = '#00d4ff';
+                ctx.font = '14px IBM Plex Sans';
+                ctx.fillText(cosType, 300, 180);
+                
+                ringAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        function drawThreeSiteRING(ctx, servers, cosType) {
+            const flows = [
+                { from: [300, 90], to: [125, 290], color: '#0062ff' },
+                { from: [125, 290], to: [475, 290], color: '#24a148' },
+                { from: [475, 290], to: [300, 90], color: '#ff832b' }
+            ];
+            
+            function animate() {
+                ctx.clearRect(0, 0, 600, 400);
+                
+                const time = Date.now();
+                const progress = (time % 3000) / 3000;
+                
+                // Draw sites
+                ctx.strokeStyle = '#0062ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(225, 50, 150, 80);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText('Site A', 300, 35);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${Math.ceil(servers/3)} servers`, 300, 100);
+                
+                ctx.strokeStyle = '#24a148';
+                ctx.strokeRect(50, 250, 150, 80);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.fillText('Site B', 125, 235);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${Math.ceil(servers/3)} servers`, 125, 300);
+                
+                ctx.strokeStyle = '#ff832b';
+                ctx.strokeRect(400, 250, 150, 80);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.fillText('Site C', 475, 235);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${Math.floor(servers/3)} servers`, 475, 300);
+                
+                // Connection lines
+                ctx.strokeStyle = '#00d4ff';
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 1;
+                
+                ctx.beginPath();
+                ctx.moveTo(275, 130);
+                ctx.lineTo(125, 250);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(325, 130);
+                ctx.lineTo(475, 250);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(200, 290);
+                ctx.lineTo(400, 290);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+                
+                // Draw flowing orbs (double pulses per path)
+                flows.forEach((flow, i) => {
+                    // Primary pulse
+                    const offset = (i / 3 + progress) % 1;
+                    const x = flow.from[0] + (flow.to[0] - flow.from[0]) * offset;
+                    const y = flow.from[1] + (flow.to[1] - flow.from[1]) * offset;
+                    const pulseSize = 8 + Math.sin(time / 300 + i * Math.PI / 3) * 2;
+                    
+                    const rgb = flow.color.match(/\w\w/g).map(x => parseInt(x, 16));
+                    
+                    // Outer glow
+                    ctx.beginPath();
+                    ctx.arc(x, y, pulseSize * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.3)`;
+                    ctx.fill();
+                    
+                    // Inner orb
+                    ctx.beginPath();
+                    ctx.arc(x, y, pulseSize, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.8)`;
+                    ctx.fill();
+                    
+                    // Secondary pulse (offset by 0.5)
+                    const offset2 = (offset + 0.5) % 1;
+                    const x2 = flow.from[0] + (flow.to[0] - flow.from[0]) * offset2;
+                    const y2 = flow.from[1] + (flow.to[1] - flow.from[1]) * offset2;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x2, y2, pulseSize * 0.7, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.4)`;
+                    ctx.fill();
+                });
+                
+                // COS label
+                ctx.fillStyle = '#00d4ff';
+                ctx.font = '14px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText(cosType, 300, 370);
+                
+                ringAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Initialize RING calculator
+        function initializeRINGCalculator() {
+            updateRINGServerCounts();
+            updateRINGDriveCapacities();
+        }
+
+        // ========================================
+        // CLEVERSAFE TOPOLOGY VISUALIZATION
+        // ========================================
+
+        let cleversafeAnimationFrame = null;
+        let cleversafeParticles = [];
+
+        function drawCleversafeTopology() {
+            const canvas = document.getElementById('cleversafe-topology-canvas');
+            if (!canvas) return;
+            
+            // Stop any existing animation
+            if (cleversafeAnimationFrame) {
+                cancelAnimationFrame(cleversafeAnimationFrame);
+                cleversafeAnimationFrame = null;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            const config = appState.ecConfig;
+            
+            const siteTopology = config.siteTopology || 'single';
+            const width = config.width || 9;
+            const threshold = config.threshold || 6;
+            
+            if (siteTopology === 'single') {
+                // Single Site Topology with animation
+                drawSingleSiteTopology(ctx, width, threshold);
+            } else {
+                // 3-Site Topology with animation
+                drawThreeSiteTopology(ctx, width, threshold);
+            }
+        }
+
+        function drawSingleSiteTopology(ctx, width, threshold) {
+            // Clear particles
+            cleversafeParticles = [];
+            
+            // Draw static elements
+            const nodesPerRow = Math.min(width, 6);
+            const rows = Math.ceil(width / nodesPerRow);
+            const nodeSize = 40;
+            const spacing = 70;
+            const startX = 300 - (Math.min(width, nodesPerRow) * spacing) / 2 + spacing / 2;
+            const startY = 100;
+            
+            // Store node positions
+            const nodePositions = [];
+            for (let i = 0; i < width; i++) {
+                const row = Math.floor(i / nodesPerRow);
+                const col = i % nodesPerRow;
+                const x = startX + col * spacing;
+                const y = startY + row * spacing;
+                nodePositions.push({ x, y, id: i });
+            }
+            
+            // Create animated particles
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                cleversafeParticles.push({
+                    x: 50 + Math.random() * 500,
+                    y: 50 + Math.random() * 250,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: 3 + Math.random() * 2,
+                    opacity: 0.5 + Math.random() * 0.5,
+                    color: i % 3 === 0 ? '#00d4ff' : (i % 3 === 1 ? '#0062ff' : '#24a148'),
+                    bounds: { minX: 50, maxX: 550, minY: 50, maxY: 300 }
+                });
+            }
+            
+            // Animation loop
+            function animate() {
+                ctx.clearRect(0, 0, 600, 350);
+                
+                // Draw datacenter container
+                ctx.strokeStyle = '#0062ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(50, 50, 500, 250);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText('Single Site - Distributed Erasure Coding', 300, 30);
+                
+                // Draw and update particles
+                cleversafeParticles.forEach((p, index) => {
+                    // Update position
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    
+                    // Bounce off bounds
+                    if (p.x < p.bounds.minX || p.x > p.bounds.maxX) p.vx *= -1;
+                    if (p.y < p.bounds.minY || p.y > p.bounds.maxY) p.vy *= -1;
+                    
+                    // Pulsing opacity
+                    const pulseOpacity = 0.3 + Math.sin(Date.now() / 500 + index * 0.5) * 0.4;
+                    const pulseSize = p.size * (1 + Math.sin(Date.now() / 400 + index * 0.3) * 0.3);
+                    
+                    // Draw particle glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, pulseSize * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace(')', `, ${pulseOpacity * 0.3})`).replace('rgb', 'rgba').replace('#', 'rgba(').replace(/(.{2})(.{2})(.{2})/, '$1,$2,$3,');
+                    const rgb = p.color.match(/\w\w/g).map(x => parseInt(x, 16));
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${pulseOpacity * 0.3})`;
+                    ctx.fill();
+                    
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${pulseOpacity})`;
+                    ctx.fill();
+                });
+                
+                // Draw storage nodes (all nodes have distributed data + parity)
+                nodePositions.forEach((node, i) => {
+                    // All nodes are cyan - distributed parity
+                    ctx.fillStyle = '#00d4ff';
+                    ctx.fillRect(node.x - nodeSize/2, node.y - nodeSize/2, nodeSize, nodeSize);
+                    
+                    // Node border
+                    ctx.strokeStyle = '#0062ff';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(node.x - nodeSize/2, node.y - nodeSize/2, nodeSize, nodeSize);
+                    
+                    // Node number
+                    ctx.fillStyle = '#0a0a1a';
+                    ctx.font = 'bold 12px IBM Plex Sans';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`N${i + 1}`, node.x, node.y);
+                });
+                
+                // Legend
+                ctx.font = '13px IBM Plex Sans';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(`${width} Storage Nodes - Data & Parity Distributed Across All`, 150, 320);
+                
+                // Scheme display
+                ctx.textAlign = 'center';
+                ctx.font = 'bold 14px IBM Plex Sans';
+                ctx.fillStyle = '#00d4ff';
+                ctx.fillText(`IDA Dispersal: ${width}-${threshold} (Need ${threshold} of ${width} to read)`, 300, 340);
+                
+                cleversafeAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        function drawThreeSiteTopology(ctx, width, threshold) {
+            // Clear particles
+            cleversafeParticles = [];
+            
+            // Calculate nodes per site
+            const nodesPerSite = Math.ceil(width / 3);
+            const site1Nodes = nodesPerSite;
+            const site2Nodes = nodesPerSite;
+            const site3Nodes = width - (site1Nodes + site2Nodes);
+            
+            // Create flowing particles between sites
+            const flows = [
+                { from: [300, 90], to: [160, 260], color: '#0062ff' },
+                { from: [160, 260], to: [440, 260], color: '#24a148' },
+                { from: [440, 260], to: [300, 90], color: '#ff832b' }
+            ];
+            
+            // Animation loop
+            function animate() {
+                ctx.clearRect(0, 0, 600, 350);
+                
+                const time = Date.now();
+                const progress = (time % 3000) / 3000;
+                
+                // Site A (top)
+                ctx.strokeStyle = '#0062ff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(220, 30, 160, 120);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '14px IBM Plex Sans';
+                ctx.textAlign = 'center';
+                ctx.fillText('Site A', 300, 20);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${site1Nodes} nodes`, 300, 90);
+                
+                // Site B (bottom left)
+                ctx.strokeStyle = '#24a148';
+                ctx.strokeRect(80, 200, 160, 120);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '14px IBM Plex Sans';
+                ctx.fillText('Site B', 160, 190);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${site2Nodes} nodes`, 160, 260);
+                
+                // Site C (bottom right)
+                ctx.strokeStyle = '#ff832b';
+                ctx.strokeRect(360, 200, 160, 120);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '14px IBM Plex Sans';
+                ctx.fillText('Site C', 440, 190);
+                ctx.font = '12px IBM Plex Sans';
+                ctx.fillText(`${site3Nodes} nodes`, 440, 260);
+                
+                // Draw connection lines
+                ctx.strokeStyle = '#00d4ff';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                
+                ctx.beginPath();
+                ctx.moveTo(260, 150);
+                ctx.lineTo(160, 200);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(340, 150);
+                ctx.lineTo(440, 200);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(240, 260);
+                ctx.lineTo(360, 260);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+                
+                // Draw flowing orbs
+                flows.forEach((flow, i) => {
+                    const offset = (i / 3 + progress) % 1;
+                    const x = flow.from[0] + (flow.to[0] - flow.from[0]) * offset;
+                    const y = flow.from[1] + (flow.to[1] - flow.from[1]) * offset;
+                    const pulseSize = 8 + Math.sin(time / 300 + i * Math.PI / 3) * 2;
+                    
+                    // Outer glow
+                    ctx.beginPath();
+                    ctx.arc(x, y, pulseSize * 1.5, 0, Math.PI * 2);
+                    const rgb = flow.color.match(/\w\w/g).map(x => parseInt(x, 16));
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.3)`;
+                    ctx.fill();
+                    
+                    // Inner orb
+                    ctx.beginPath();
+                    ctx.arc(x, y, pulseSize, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.8)`;
+                    ctx.fill();
+                });
+                
+                // Scheme display
+                ctx.textAlign = 'center';
+                ctx.font = 'bold 14px IBM Plex Sans';
+                ctx.fillStyle = '#00d4ff';
+                ctx.fillText(`3-Site IDA: ${width}-${threshold} (Distributed Parity)`, 300, 340);
+                
+                cleversafeAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        console.log('PreSales Calculator v2.6 - Scripts loaded successfully!');
     </script>
 </body>
 </html>

@@ -1,8 +1,6 @@
-# 🧮 PreSales Calculator v2.5.3 - Open Source Edition
+# 🧮 PreSales Calculator v2.6 - Open Source Edition
 
 **Multi-Protocol Storage Analysis Tool for Pre-Sales Engineers**
-
-> **Note:** This is the **Open Source Edition** featuring the Cleversafe calculator. For enterprise consulting, custom calculators, or access to additional vendor implementations (Scality, Qumulo, VAST), please contact me.
 
 A comprehensive web application for storage architects, pre-sales engineers, and technical teams to understand storage configurations, capacity planning, and failure tolerance analysis across Block, Object, and File storage protocols.
 
@@ -10,7 +8,7 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 
 ## 🌟 Features
 
-### ✅ Current Capabilities (v2.5.3)
+### ✅ Current Capabilities (v2.6)
 
 #### **Block (RAID) Calculator**
 - Storage unit aggregation with decimal/binary conversion
@@ -22,13 +20,22 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 
 #### **Object (Reed-Solomon EC) Calculator**
 - **Vendor Support:**
-  - Cleversafe (active)
+  - Cleversafe with standard schemes (9/6, 14/10, 16/11)
+  - Scality RING with HPE Alletra integration (NEW in v2.6!)
   
 - **Cleversafe Configurations:**
-  - Standard schemes: 9/6, 14/10, 16/11
-  - Custom scheme builder with validation
+  - Standard schemes with custom builder
   - 3-site deployment topology support
   - Single-site configuration warnings
+
+- **Scality RING Configurations:**
+  - 4 RING types: Mono-Site Standard Durability, Mono-Site Enhanced Durability, 2-Site (Stretched) Enhanced Durability, 3-Site (Stretched) Enhanced Durability
+  - 5 HPE Alletra models with accurate drive configurations
+  - Interactive topology visualizations with HTML5 Canvas
+  - Animated datacenter representations showing data flow
+  - ARC erasure coding schemes (ARC7+5, ARC9+3, ARC8+4, ARC5+7)
+  - COS replication policies (COS2, COS3)
+  - Keyspace alignment warnings
 
 - **Analysis Capabilities:**
   - Capacity analysis (raw, usable, efficiency, expansion factor)
@@ -36,6 +43,7 @@ A comprehensive web application for storage architects, pre-sales engineers, and
   - Data durability calculations (nines, MTTDL)
   - Performance indicators (write amplification, rebuild time, network overhead)
   - Educational context with scheme explanations
+  - Visual topology diagrams with animated data flows
 
 ---
 
@@ -62,12 +70,12 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 1. **Select Calculator Type:**
    - Block (RAID) - For RAID configurations
    - Object (Reed-Solomon EC) - For erasure coding systems
-   - File (SMB/NFS) - Coming soon in private version
 
 2. **For Object Storage:**
-   - Choose vendor (currently: Cleversafe)
+   - Choose vendor (Cleversafe or Scality RING)
    - Select or customize EC scheme
    - Configure storage parameters
+   - View interactive topology visualizations (RING)
    - Click "Calculate Results"
 
 3. **Review Analysis:**
@@ -76,6 +84,7 @@ A comprehensive web application for storage architects, pre-sales engineers, and
    - Durability estimates
    - Performance indicators
    - Educational context
+   - Visual topology representation (RING)
 
 ---
 
@@ -85,17 +94,19 @@ A comprehensive web application for storage architects, pre-sales engineers, and
 - **Frontend:** Pure HTML5, CSS3, JavaScript (ES6+)
 - **Styling:** IBM Plex Sans font, custom CSS with CSS Grid/Flexbox
 - **Math Library:** Decimal.js for precision calculations
-- **Icons:** Custom emoji-based icon system (no external dependencies)
+- **Graphics:** HTML5 Canvas for topology visualizations
+- **Icons:** Font Awesome and custom emoji-based system
 
 ### **File Structure**
 ```
 presales-calculator-public/
-├── index.html              # Main application (self-contained)
-├── test-raid.html          # RAID calculator test suite
-├── package.json            # npm metadata
-├── README.md               # This file
-├── CHANGELOG.md            # Version history
-└── QUICK_START_V2.5.md     # Detailed quick start guide
+├── index.html                          # Main application (self-contained)
+├── test-raid.html                      # RAID calculator test suite
+├── test-scality-ring-with-topology.html  # RING calculator development
+├── package.json                        # npm metadata
+├── README.md                           # This file
+├── CHANGELOG.md                        # Version history
+└── QUICK_START_V2.6.md                 # Detailed quick start guide
 ```
 
 ### **Browser Compatibility**
@@ -122,13 +133,28 @@ open test-raid.html
 - Edge cases and validation
 - Multi-unit aggregation
 
+### **Scality RING Test Suite**
+
+Test the RING calculator with topology visualizations:
+
+```bash
+open test-scality-ring-with-topology.html
+```
+
+**Test Coverage:**
+- 4 RING type configurations
+- 5 HPE Alletra model calculations
+- Accuracy validation against live calculator
+- Topology visualization rendering
+- Animation performance testing
+
 ---
 
 ## 📚 Documentation
 
 ### **Available Guides**
 - **README.md** - This file (overview)
-- **QUICK_START_V2.5.md** - Detailed usage guide with screenshots
+- **QUICK_START_V2.6.md** - Detailed usage guide
 - **CHANGELOG.md** - Full version history
 
 ### **Educational Resources**
@@ -139,37 +165,40 @@ The calculator includes built-in educational content explaining:
 - Failure tolerance concepts
 - Durability calculations (MTTDL)
 - Performance trade-offs
+- Scality ARC (Asynchronous Replication and Coding)
+- COS (Copy on Site) policies
+- Multi-site topology architectures
 
 ---
 
-## 🛣️ Roadmap
+## 🎨 New in v2.6
 
-### **Planned Features**
+### **Scality RING Calculator Integration**
+- Full HPE Alletra integration with 5 server models
+- 4 RING deployment topologies with official Scality naming
+- Interactive Canvas-based topology visualizations:
+  - Mono-Site: Animated particle system showing data distribution
+  - 2-Site: Ricochet animation demonstrating mirror replication
+  - 3-Site: Multi-colored fragments showing distributed erasure coding
+- Clean, crisp 60fps animations
+- RAID drive array visualization with scrollable canvas
+- Educational content distinguishing replication from erasure coding
+- Keyspace alignment warnings for optimal configurations
 
-#### **v2.6.0 - Enhanced Object Storage**
-- [ ] Additional Cleversafe schemes (6/4, 8/6, 20/14)
-- [ ] Multi-site capacity distribution
-- [ ] Advanced durability modeling
-- [ ] Performance comparison charts
-
-#### **v2.7.0 - Additional Vendors** (Private version)
-- [ ] Scality RING support
-- [ ] Scality Artesca support
-- [ ] Vendor comparison mode
-
-#### **v2.8.0 - File Storage** (Private version)
-- [ ] SMB/NFS calculator
-- [ ] File-level RAID configurations
-- [ ] Snapshot overhead calculations
+### **Enhanced Documentation**
+- Removed advertising content
+- Focused on technical capabilities
+- Clean professional presentation
 
 ---
 
 ## 🤝 Contributing
 
-This is the **Open Source Edition** featuring core RAID and Cleversafe calculators.
+This is an open-source storage calculator for the community.
 
-**For collaboration, custom calculators, or enterprise implementations:**
+**For collaboration or questions:**
 - 💼 LinkedIn: [linkedin.com/in/dennykalaf](https://linkedin.com/in/dennykalaf)
+- 🐙 GitHub: Issues and Pull Requests welcome!
 
 ---
 
@@ -202,4 +231,4 @@ Expertise in:
 
 ---
 
-**PreSales Calculator v2.5.3 - Open Source Edition | Last Updated: October 2025**
+**PreSales Calculator v2.6 - Open Source Edition | Last Updated: October 2025**
