@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scality RING Calculator - Test Suite v2.5.4</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(26, 26, 46, 0.9);
+            --accent-blue: #0062ff;
+            --accent-cyan: #00d4ff;
+            --accent-green: #24a148;
+            --text-primary: #f4f4f4;
+            --text-secondary: #c6c6c6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .calculator-panel {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 98, 255, 0.2);
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0, 98, 255, 0.3);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1rem;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .calculate-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background: #0353e9;
+        }
+
+        .results-panel {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .result-item {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .result-item.highlight {
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            color: var(--accent-cyan);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .result-unit {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: rgba(0, 98, 255, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .scheme-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .tolerance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tolerance-item {
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .tolerance-value {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .test-comparison {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(36, 161, 72, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--accent-green);
+        }
+
+        .test-comparison h3 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
+
+        .test-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .test-row.header {
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .match {
+            color: var(--accent-green);
+        }
+
+        .mismatch {
+            color: #da1e28;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Scality RING Calculator - Test Suite</h1>
+        <p class="subtitle">Testing ARC Erasure Coding Calculations Against Spreadsheet Data</p>
+
+        <!-- Calculator Panel -->
+        <div class="calculator-panel">
+            <h2>RING Configuration</h2>
+
+            <div class="input-group">
+                <label for="ring-server-count">Server Count</label>
+                <select id="ring-server-count">
+                    <option value="3">3 Servers (ARC7+5)</option>
+                    <option value="6">6 Servers (ARC9+3)</option>
+                    <option value="9">9 Servers (ARC9+3)</option>
+                    <option value="12" selected>12 Servers (ARC9+3)</option>
+                    <option value="15">15 Servers (ARC9+3)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="ring-drives-per-server">Drives Per Server</label>
+                <select id="ring-drives-per-server">
+                    <option value="24" selected>24 Drives (24LFF HDD)</option>
+                    <option value="50">50 Drives (50 HDD - Optimized Density)</option>
+                    <option value="60">60 Drives (60SFF HDD)</option>
+                    <option value="84">84 Drives (84SFF HDD)</option>
+                    <option value="18">18 Drives (18 NVMe SSD)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="ring-drive-capacity">Drive Capacity (TB)</label>
+                <select id="ring-drive-capacity">
+                    <!-- Populated dynamically based on drive count -->
+                </select>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateAndDisplay()">
+                Calculate Capacity
+            </button>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel" id="results-panel" style="display: none;">
+            <h2>📊 Calculation Results</h2>
+
+            <div class="info-box">
+                <h3>EC Scheme: <span class="scheme-badge" id="ec-scheme-badge">ARC9+3</span></h3>
+                <p id="ec-scheme-description"></p>
+            </div>
+
+            <div class="result-grid">
+                <div class="result-item">
+                    <div class="result-label">Raw Capacity</div>
+                    <div class="result-value" id="raw-capacity-tb">—</div>
+                    <div class="result-unit">TB (<span id="raw-capacity-pb">—</span> PB)</div>
+                </div>
+                <div class="result-item highlight">
+                    <div class="result-label">Usable Capacity</div>
+                    <div class="result-value" id="usable-capacity-tb">—</div>
+                    <div class="result-unit">TB (<span id="usable-capacity-pb">—</span> PB)</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Storage Efficiency</div>
+                    <div class="result-value" id="efficiency">—</div>
+                    <div class="result-unit">%</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Expansion Factor</div>
+                    <div class="result-value" id="expansion-factor">—</div>
+                    <div class="result-unit">×</div>
+                </div>
+            </div>
+
+            <h2>🛡️ Failure Tolerance</h2>
+            <div class="tolerance-grid">
+                <div class="tolerance-item">
+                    <div class="result-label">Server Failures</div>
+                    <div class="tolerance-value" id="server-tolerance">—</div>
+                </div>
+                <div class="tolerance-item">
+                    <div class="result-label">Drive Failures</div>
+                    <div class="tolerance-value" id="drive-tolerance">—</div>
+                </div>
+                <div class="tolerance-item">
+                    <div class="result-label">Data Slices</div>
+                    <div class="tolerance-value" id="data-slices">—</div>
+                </div>
+                <div class="tolerance-item">
+                    <div class="result-label">Parity Slices</div>
+                    <div class="tolerance-value" id="parity-slices">—</div>
+                </div>
+            </div>
+
+            <!-- Test Comparison Section -->
+            <div class="test-comparison">
+                <h3>📋 Spreadsheet Validation</h3>
+                <p style="margin-bottom: 15px; color: var(--text-secondary);">
+                    Compare calculated values against your Scality sizing spreadsheet
+                </p>
+                <div class="test-row header">
+                    <div>Metric</div>
+                    <div>Calculated</div>
+                    <div>Spreadsheet</div>
+                    <div>Match?</div>
+                </div>
+                <div class="test-row">
+                    <div>Usable Capacity (TB)</div>
+                    <div id="test-usable-calc">—</div>
+                    <div>
+                        <input type="number" id="test-usable-expected" placeholder="From spreadsheet" 
+                               style="width: 120px; padding: 5px; font-size: 0.9rem;">
+                    </div>
+                    <div id="test-usable-match">—</div>
+                </div>
+                <div class="test-row">
+                    <div>Efficiency (%)</div>
+                    <div id="test-efficiency-calc">—</div>
+                    <div>
+                        <input type="number" id="test-efficiency-expected" placeholder="From spreadsheet"
+                               style="width: 120px; padding: 5px; font-size: 0.9rem;">
+                    </div>
+                    <div id="test-efficiency-match">—</div>
+                </div>
+                <button class="calculate-btn" onclick="validateResults()" style="margin-top: 15px;">
+                    Validate Against Spreadsheet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Node Types Configuration
+        const ringNodeTypes = {
+            24: { 
+                type: 'HDD', 
+                label: '24 Drives (24LFF HDD)',
+                capacities: [12, 16, 18, 20, 24]
+            },
+            50: { 
+                type: 'HDD', 
+                label: '50 Drives (50 HDD - Optimized Density)',
+                capacities: [3.84, 7.68, 15.36]
+            },
+            60: { 
+                type: 'HDD', 
+                label: '60 Drives (60SFF HDD)',
+                capacities: [12, 16, 18, 20, 24]
+            },
+            84: { 
+                type: 'HDD', 
+                label: '84 Drives (84SFF HDD)',
+                capacities: [12, 16, 18, 20, 24]
+            },
+            18: { 
+                type: 'NVMe', 
+                label: '18 Drives (18 NVMe SSD)',
+                capacities: [3.84, 7.68, 15.36]
+            }
+        };
+
+        // EC Scheme Configuration
+        const ringSchemes = {
+            3:  { data: 7, parity: 5, efficiency: 0.5607638888888889, name: 'ARC7+5', serverTolerance: 1 },
+            6:  { data: 9, parity: 3, efficiency: 0.7074652777777778, name: 'ARC9+3', serverTolerance: 1 },
+            9:  { data: 9, parity: 3, efficiency: 0.7075617283950617, name: 'ARC9+3', serverTolerance: 2 },
+            12: { data: 9, parity: 3, efficiency: 0.7076099537037037, name: 'ARC9+3', serverTolerance: 3 },
+            15: { data: 9, parity: 3, efficiency: 0.7076388888888889, name: 'ARC9+3', serverTolerance: 3 }
+        };
+
+        // Update drive capacity options when drive count changes
+        function updateDriveCapacities() {
+            const driveCount = parseInt(document.getElementById('ring-drives-per-server').value);
+            const nodeType = ringNodeTypes[driveCount];
+            const capacityDropdown = document.getElementById('ring-drive-capacity');
+            
+            capacityDropdown.innerHTML = '';
+            
+            nodeType.capacities.forEach(capacity => {
+                const option = document.createElement('option');
+                option.value = capacity;
+                option.textContent = `${capacity} TB`;
+                capacityDropdown.appendChild(option);
+            });
+        }
+
+        // Calculate RING capacity
+        function calculateScalityRING() {
+            const servers = parseInt(document.getElementById('ring-server-count').value);
+            const drivesPerServer = parseInt(document.getElementById('ring-drives-per-server').value);
+            const driveCapacityTB = parseFloat(document.getElementById('ring-drive-capacity').value);
+            
+            const scheme = ringSchemes[servers];
+            const rawCapacityTB = servers * drivesPerServer * driveCapacityTB;
+            const usableCapacityTB = rawCapacityTB * scheme.efficiency;
+            const expansionFactor = 1 / scheme.efficiency;
+            
+            return {
+                servers,
+                drivesPerServer,
+                driveCapacityTB,
+                rawCapacityTB,
+                usableCapacityTB: Math.round(usableCapacityTB),
+                rawCapacityPB: (rawCapacityTB / 1000).toFixed(2),
+                usableCapacityPB: (usableCapacityTB / 1000).toFixed(2),
+                efficiency: (scheme.efficiency * 100).toFixed(1),
+                expansionFactor: expansionFactor.toFixed(2),
+                ecScheme: scheme.name,
+                dataSlices: scheme.data,
+                paritySlices: scheme.parity,
+                totalWidth: scheme.data + scheme.parity,
+                serverFailureTolerance: scheme.serverTolerance,
+                driveFailureTolerance: scheme.parity
+            };
+        }
+
+        // Display results
+        function calculateAndDisplay() {
+            const results = calculateScalityRING();
+            
+            // Show results panel
+            document.getElementById('results-panel').style.display = 'block';
+            
+            // Update capacity values
+            document.getElementById('raw-capacity-tb').textContent = results.rawCapacityTB.toLocaleString();
+            document.getElementById('raw-capacity-pb').textContent = results.rawCapacityPB;
+            document.getElementById('usable-capacity-tb').textContent = results.usableCapacityTB.toLocaleString();
+            document.getElementById('usable-capacity-pb').textContent = results.usableCapacityPB;
+            document.getElementById('efficiency').textContent = results.efficiency;
+            document.getElementById('expansion-factor').textContent = results.expansionFactor;
+            
+            // Update scheme info
+            document.getElementById('ec-scheme-badge').textContent = results.ecScheme;
+            document.getElementById('ec-scheme-description').textContent = 
+                `${results.dataSlices} data slices + ${results.paritySlices} parity slices = ${results.totalWidth} total width`;
+            
+            // Update tolerance values
+            document.getElementById('server-tolerance').textContent = results.serverFailureTolerance;
+            document.getElementById('drive-tolerance').textContent = results.driveFailureTolerance;
+            document.getElementById('data-slices').textContent = results.dataSlices;
+            document.getElementById('parity-slices').textContent = results.paritySlices;
+            
+            // Update test comparison
+            document.getElementById('test-usable-calc').textContent = results.usableCapacityTB.toLocaleString();
+            document.getElementById('test-efficiency-calc').textContent = results.efficiency + '%';
+            
+            // Scroll to results
+            document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Validate results against spreadsheet
+        function validateResults() {
+            const calcUsable = parseInt(document.getElementById('test-usable-calc').textContent.replace(/,/g, ''));
+            const expectedUsable = parseInt(document.getElementById('test-usable-expected').value);
+            const calcEfficiency = parseFloat(document.getElementById('test-efficiency-calc').textContent);
+            const expectedEfficiency = parseFloat(document.getElementById('test-efficiency-expected').value);
+            
+            // Validate usable capacity (allow 1% margin)
+            const usableMatch = document.getElementById('test-usable-match');
+            if (expectedUsable && calcUsable) {
+                const diff = Math.abs(calcUsable - expectedUsable) / expectedUsable * 100;
+                if (diff < 1) {
+                    usableMatch.textContent = '✓ Match';
+                    usableMatch.className = 'match';
+                } else {
+                    usableMatch.textContent = `✗ Off by ${diff.toFixed(1)}%`;
+                    usableMatch.className = 'mismatch';
+                }
+            }
+            
+            // Validate efficiency (allow 0.5% margin)
+            const efficiencyMatch = document.getElementById('test-efficiency-match');
+            if (expectedEfficiency && calcEfficiency) {
+                const diff = Math.abs(calcEfficiency - expectedEfficiency);
+                if (diff < 0.5) {
+                    efficiencyMatch.textContent = '✓ Match';
+                    efficiencyMatch.className = 'match';
+                } else {
+                    efficiencyMatch.textContent = `✗ Off by ${diff.toFixed(1)}%`;
+                    efficiencyMatch.className = 'mismatch';
+                }
+            }
+        }
+
+        // Initialize
+        document.getElementById('ring-drives-per-server').addEventListener('change', updateDriveCapacities);
+        updateDriveCapacities();
+
+        console.log('Scality RING Calculator Test Suite Ready');
+        console.log('Node Types:', ringNodeTypes);
+        console.log('EC Schemes:', ringSchemes);
+    </script>
+</body>
+</html>
